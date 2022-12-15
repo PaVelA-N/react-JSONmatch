@@ -9,7 +9,12 @@ import './index.css';
 // let list = '';
 //    list += '<li>'  + ' шт. </li>';
 
-const param={body:'', text:'', key:'', keyValue:'', tbl:'',td: '',tr: '', rowIndex:'', colIndex:'',obj:{},};
+// Для простых объектов доступны следующие методы:
+// Object.keys(obj) – возвращает массив ключей.
+// Object.values(obj) – возвращает массив значений.
+// Object.entries(obj) – возвращает массив пар [ключ, значение].
+
+const param={body:'', row:'', text:'', key:'', keyValue:'', tbl:'',td: '',tr: '', rowIndex:'', colIndex:'',obj:{},};
 param.body = document.body;
 const obj1  = {
    a: { x: 1, y: 3 },
@@ -21,120 +26,60 @@ const obj1  = {
 const obj2 = {
     akey: "a1sdfg",
     bkey: "b2",
-    ckey: "c3",
-    // dkey: "d3",
-    // ekey: "e3",
-    // fkey: "f3",
-    // gkey: "g3",
+    ckey: 3,
+    dkey: "d3",
+    ekey: true,
+    fkey: undefined,
+    gkey: "g3",
 };
 
 param.obj = obj2; 
 
-function tableCreate(param) {
-            param.tbl = document.createElement('table');
-                param.tbl.setAttribute('id','table1');
-                param.tbl.style.width = '50%';
-                param.tbl.style.border = '2px solid black';
-
-    for (let key in param.obj) {
-        param.tr = param.tbl.insertRow(); /* tr видимо Table Row ? */
-        param.tr.setAttribute('id','rowIndex'+key);
-
-        for (param.colIndex = 0; param.colIndex < 2; param.colIndex++) { /*столбец */
-        // if (rowIndex === 3 && colIndex === 4) {
-        //     break;
-        // } else 
-        {
-            if (param.colIndex === 0) {
-                param.text=obj2[key];
-                newCell(param);                
-            } else {
-                // param.text=key;
-                param.text = key +' - '+obj2[key].length;
-                newCell(param);                
-            }
-            // param.colIndex +=1
-            // newCell(param);
-        }
-        }
-    }
-}
-
-function newCell(param){
-    param.td = param.tr.insertCell(param);
-    param.td.appendChild(document.createTextNode(`Column: ${param.colIndex}; Key/Value: ${param.text}`));
-    // param.td.appendChild(document.createTextNode(`param.tbl. ${param.tbl} tr: ${param.tr} td: ${param.td} rowIndex: ${param.rowIndex} / colIndex: ${param.colIndex}`));
-    param.td.style.border = '1px solid black';
-            // if (i === 4 && j === 1) {
-            // td.setAttribute('rowSpan', '4');
-            // }
-    param.body.appendChild(param.tbl);
-}
-
-// tableCreate(param);
-
-// Для простых объектов доступны следующие методы:
-// Object.keys(obj) – возвращает массив ключей.
-// Object.values(obj) – возвращает массив значений.
-// Object.entries(obj) – возвращает массив пар [ключ, значение].
-
-function Board (props) {
+function objShow (props) {
     let keysArray = Object.keys(obj2);
     let valueArray = Object.values(obj2);
     const rows = keysArray.length; 
-    const cells = 3;
     console.log('Board ', props);
-    return (
-        <div>
-            {[...Array(rows).keys()].map(row => (
-                <div className="string-row" key={row}>
-                    {[...Array(1).keys()].map(cell => 
-                        {
-                        props.key = keysArray[row];
-                        props.value = valueArray[row];
-                        renderSquare(props)
-                        })}
+            return (
+                <div>
+                    {[...Array(rows).keys()].map(row => (
+                        props.key = keysArray[row],
+                        props.value = valueArray[row],
+                        props.row = row,
+                        selectTypeOfElement(props)
+                    ))}
                 </div>
-            ))}
-        </div>
-    )
+            )
   }
 
-    function renderSquare(props) {
-        console.log('renderSquare ');
-        document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : ' + props.value + '</ul>';
+function selectTypeOfElement(props) {
+    let row = props.row;
+    let typeSelector = props.value;
+    switch (typeof typeSelector) {
+        case 'string': 
+            <div className="string-row" key={row}>             {renderElement(props)}            </div>
+                break;
+        case 'number': 
+            <div className="string-row" key={row}>         {            renderElement(props)        }        </div>
+                break;
+        case 'boolean': 
+            <div className="string-row" key={row}>         {            renderElement(props)        }        </div>
+                break;
+        case 'symbol': 
+            <div className="string-row" key={row}>         {            renderElement(props)        }        </div>
+                break;
+        case 'undefined': 
+            <div className="string-row" key={row}>         {            renderElement(props)        }        </div>
+                break;
     }
-
-// Конечно, лучше создавать элементы через
-// var div = document.createElement('div');
-// наполнять через div.innerHTML = "text";
-// и добавлять их через element.appendChild(div);
-
-  function Square (props) {
-    console.log('Square ', props);
-    return (
-      <span className="square"> ' ${props }    '  </span>
-    );
-  }
-
-//   let props={a: 1};
-  let props = obj2;
-  Board (props);
-
-  var car = {
-    "model": "Dodge",
-    "year": 1967,
-    "color": "red",
-    "body": "Hard top",
-    "img": "imagescar-1", 
 }
 
-for (let j in car) {
-  const element = document.getElementById(j);
-  if (element) {
-    element.innerHTML = (car[j]);
-  }
-};
+function renderElement(props) {
+    document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : ' + props.value + '</ul>';
+}
+
+let props = obj2;
+objShow (props);
 
 // function deepCopyObject(objToCopy){
 //    let inFunctionObj_copy={};
@@ -211,53 +156,6 @@ for (let j in car) {
 
 // Obj_copy = deepCopyObject(obj);
 
-// console.log('obj', obj);
-// console.log('Obj_copy', Obj_copy);
-
-// function myFunction() {
-//     let table1 = document.createElement("Table1");
-//     table1.setAttribute("id", "myTable");
-//     document.body.appendChild(table1);
-
-//     let tr1 = document.createElement("TR1");
-//     tr1.setAttribute("id", "myTr1");
-//     document.getElementById("myTable").appendChild(tr1);
-
-//     let tr2 = document.createElement("TR2");
-//     tr2.setAttribute("id", "myTr2");
-//     document.getElementById("myTable").appendChild(tr2);
-
-//     let td1 = document.createElement("TD1");
-//     let td2 = document.createElement("TD2");
-    
-//     let cell1_1 = document.createTextNode("cell 1_1");
-//     let cell2_1 = document.createTextNode("cell 2_1");
-//     let cell3_1 = document.createTextNode("-----");
-
-//     td1.appendChild(cell1_1);
-//     td1.appendChild(cell2_1);
-
-//     td2.appendChild(cell3_1);
-
-//     let cell1_2 = document.createTextNode("cell 1_2");
-
-//     td2.appendChild(cell1_2);
-    
-//     document.getElementById("myTr1").appendChild(td1);
-//     document.getElementById("myTr2").appendChild(td2);
-// }
-
-// myFunction()
-
-// function table (){
-//    document.getElementById('root1').innerHTML += header;
-//    document.getElementById('root1').innerHTML += '<ul>' + list + '</ul>';
-//    document.getElementById('root1').innerHTML += '<p>Click the button to create a TABLE, a TR and a TD element.</p>';
-//    // document.getElementById('root1').innerHTML +=(<button onclick="myFunction()">Try it</button>);
-//    document.getElementById('root1').innerHTML += '<p>' + " ---- " + '</p>';
-// };
-
-// table();
 
 //  const root = ReactDOM.createRoot(document.getElementById('root'));
 //  root.render( <   table/>);
@@ -267,7 +165,6 @@ for (let j in car) {
 //     <App />
 //   </React.StrictMode>
 // );
-
 
 
 // Конечно, лучше создавать элементы через
