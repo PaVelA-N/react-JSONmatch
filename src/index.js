@@ -22,15 +22,15 @@ import './index.css';
 //         e: [ "8", null, [ 9, 0 ] ],
 //  };
 
-const props={body:'', row:'', text:'', key:'', keyValue:'', tbl:'',td: '',tr: '', rowIndex:'', colIndex:'',obj:{},arr:[]};
+const props={body:'', row:'', text:'', key:'', keyValue:'', tbl:'',td: '',tr: '', rowIndex:'', colIndex:'',obj:{},arr:[], objType:''};
 props.body = document.body;
 
 const obj1 = {
     akey: "a1g",
-    b1key: "b2",
+    bkey: "b2",
     c1key: "b1",
-    dkey: "d2",
-//     ekey: true,
+    dkey: ["d2","d3"],
+    ekey: {v: 1, g: 2},
 //     fkey: {a: 1, b: {v: 1, g: 2}},
 //     gkey: null,
 //     hkey: [21,22,{vm: 1, gm: 2},24],
@@ -38,11 +38,11 @@ const obj1 = {
 };
 
 const obj2 = {
-    akey: "1a2g",
-    bkey: "b2",
+    akey: "a1g",
+    bkey: {vb: 1, gb: 2},
     c2key: "c1",
-    dkey: "d3",
-    // ekey: true,
+    dkey: ["d2","d3"],
+    ekey: {ve: 1, ge: 2},
     // fkey1: {a: 1, b: 2},
     // fkey2: {a: 1, b: {v: 1, g: 2}},
     // fkey3: {a: 1, b: {v: 1, g: {gv: 12, gg: 22}}},
@@ -63,11 +63,11 @@ function compareAll(compProps){
     compProps.arrSame = arr1.filter(num => arr2.includes(num));
     compProps.arr1Unic = arr1.filter(num => !arr2.includes(num));
     compProps.arr2Unic = arr2.filter(num => !arr1.includes(num));
-    // console.log('arr1 :' + arr1)
-    // console.log('arr2 :' + arr2)
-    // console.log('arrSame :' + arrSame)
-    // console.log('arr1Unic :' + arr1Unic)
-    // console.log('arr2Unic :' + arr2Unic)
+    console.log('arr1 :' + arr1)
+    console.log('arr2 :' + arr2)
+    console.log('arrSame :' + compProps.arrSame)
+    console.log('arr1Unic :' + compProps.arr1Unic)
+    console.log('arr2Unic :' + compProps.arr2Unic)
     return compProps;
 }
 compareAll(compProps);
@@ -75,18 +75,67 @@ compareAll(compProps);
 function objShow (props) {
     let keysArray = Object.keys(props.obj);
     let valueArray = Object.values(props.obj);
-    const rows = keysArray.length; 
+        const rows = keysArray.length; 
     // console.log('Board ', props);
+    // let row = props.row;
+    // let typeSelector = props.value; КАК ВАРИАНТ ТУТ НАДО СДЕЛАТЬ КОНДОВО И СЮДА СВИТЧ
+    // switch (typeof typeSelector) {
             return (
-                <div>
-                    {[...Array(rows).keys()].map(row => (
+                <div> 
+                     {[...Array(rows).keys()].map(row => (
                         props.key = keysArray[row],
                         props.value = valueArray[row],
                         props.row = row,
-                        selectTypeOfElement(props)
+                        // selectTypeOfElement(props) 
+                        selectTypeOfElement2(props)
                     ))}
                 </div>
             )
+  }
+
+  function showElement (props) {
+    let keysArray = Object.keys(props.obj);
+    let valueArray = Object.values(props.obj);
+    const rows = keysArray.length; 
+    // НИЖЕ РАБОТАЮЩИЙ МЕХАНИЗМ ВВОДА ДАННЫХ В ЯЧЕЙКИ ТАБЛИЦЫ
+    // let t = document.getElementById("table1");
+    // // console.log(t);
+    //      let trs = t.getElementsByTagName("tr");
+    //     //  console.log(trs);
+    //      let tds = t.getElementsByTagName("td");
+    //     //  console.log(tds);
+    //      tds[0].innerHTML = 'Х-Х';
+
+         switch (props.objType) {
+           case 'array':
+           return ('<ul> Element is Array. See below: </ul>');
+           return (
+            <div> 
+                 {[...Array(rows).keys()].map(row => (
+                    props.key = keysArray[row],
+                    props.value = valueArray[row],
+                    props.row = row,
+                    // selectTypeOfElement(props) 
+                    selectTypeOfElement2(props)
+                ))}
+            </div>
+            )
+                    break;
+           case 'object':
+                // return ('<ul> Element is Object. See below: </ul>');
+                return (
+                    <div> 
+                         {[...Array(rows).keys()].map(row => (
+                            props.key = keysArray[row],
+                            props.value = valueArray[row],
+                            props.row = row,
+                            selectTypeOfElement(props) 
+                            // selectTypeOfElement2(props) 
+                        ))}
+                    </div>
+                    )
+                    break;        
+        }  
   }
 
 function selectTypeOfElement(props) {
@@ -137,16 +186,73 @@ function selectTypeOfElement(props) {
     }
 }
 
-function renderElement(props) {
-     document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : ' + props.value + '</ul>';
+function selectTypeOfElement2(props) {
+    let row = props.row;
+    let typeSelector = props.value;
+    switch (typeof typeSelector) {
+        case 'string': 
+        return (
+            <div className="string-row" key={row} >       {            renderElement2(props)        }            </div>
+        )
+                break;
+        case 'number': 
+        return (
+            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
+        )
+                break;
+        case 'boolean': 
+        return (
+            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
+        )
+                break;
+        case 'symbol': 
+        return (
+            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
+        )
+                break;
+        case 'undefined': 
+        return (
+            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
+        )
+                break;
+                case 'object': 
+                   if (typeSelector === null) {
+                       renderElement2(props);
+                   } else {
+                        if (typeSelector instanceof Array){
+                            props.obj=props.value;
+                            document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : is Array' +  '</ul>';    
+                            objShow(props);
+                            return ('xxxx')
+                       }
+                       else{
+                           props.obj=props.value;
+                           document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : is Object' +  '</ul>';    
+                           objShow(props);
+                           return ('yyyy')
+                        }
+                   }
+                break;	 
+    }
 }
 
-objShow (props);
+function renderElement(props) {
+     document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : ' + props.value + '</ul>';
+    //  return ('root1').innerHTML += '<ul>' + props.key + ' : ' + props.value + '</ul>';
+}
+
+function renderElement2(props) {
+     return ('<ul>' + props.key + ' : ' + props.value + '</ul>');
+}
+
+// objShow (props);
 
 addTable1(compProps.arrSame);
 addTable2(compProps.arr1Unic);
 addTable3(compProps.arr2Unic);
 
+props.objType = 'string';
+showElement()
 
 // function tableCreate() {
 
@@ -332,9 +438,12 @@ addTable3(compProps.arr2Unic);
 // tableName.forEach((element) =>addTable(element)); 
 
 function addTable1(ar) {
-    const sameElemTable = document.createElement('table');
+
+    const sameElemTable = document.createElement('table1');
+    props.tbl = document.getElementById("table1");
     sameElemTable.setAttribute('id','table1');
-    sameElemTable.style.width = '50%';
+
+    sameElemTable.style.width = '100%';
     sameElemTable.style.border = '2px solid black';
         let thead = document.createElement('thead');
         let tbody = document.createElement('tbody');
@@ -357,27 +466,56 @@ function addTable1(ar) {
         row_1.appendChild(heading_3);
         row_1.appendChild(heading_4);
         thead.appendChild(row_1);
-        
+       
     for (let i = 0; i < ar.length; ++i) {
         // console.log(a[index]);
         let row_2 = document.createElement('tr');
         let row_2_data_1 = document.createElement('td');
         row_2_data_1.innerHTML = ar[i];
         let row_2_data_2 = document.createElement('td');
-        row_2_data_2.innerHTML = obj1[ar[i]];
-        // let row_2_data_3 = document.createElement('td');
-        // row_2_data_3.innerHTML = "Netflix";
-    
+
+        let typeSelector = obj1[ar[i]];
+        // console.log (i+" "+typeSelector);
+        row_2_data_2.innerHTML = obj1[ar[i]] ; // Значение из обьекта 1
+        switch (typeof typeSelector) {
+            case 'object':
+                if (typeSelector === null) {
+                    } else {
+                         if (typeSelector instanceof Array){
+                            props.objType = 'array';
+                            props.arr = obj1[ar[i]];
+                            row_2_data_2.innerHTML = showElement(props);
+                        }
+                        else{
+                            props.objType = 'object';
+                            props.obj = obj1[ar[i]];
+                            row_2_data_2.innerHTML = showElement(props);
+                         }
+                    break;        
+        }  
+    }
+                
+        let row_2_data_3 = document.createElement('td');
+        row_2_data_3.innerHTML = " - ";
+        let row_2_data_4 = document.createElement('td');
+        if (obj1[ar[i]] === obj2[ar[i]]) { // Значение из обьекта 2
+            row_2_data_4.innerHTML = obj2[ar[i]];     
+            // row_2_data_4.innerHTML = 'test'
+        } else {
+            row_2_data_4.innerHTML ='<span style="color:red; font-size:20px">'+obj2[ar[i]]+'</span>';
+        }
+            
         row_2.appendChild(row_2_data_1);
         row_2.appendChild(row_2_data_2);
-        // row_2.appendChild(row_2_data_3);
+        row_2.appendChild(row_2_data_3);
+        row_2.appendChild(row_2_data_4);
         tbody.appendChild(row_2);
     }
     document.getElementById('root1').appendChild(sameElemTable);    
 }
 
 function addTable2() {
-    const unicObj1ElemTable = document.createElement('table1');
+    const unicObj1ElemTable = document.createElement('table2');
     unicObj1ElemTable.setAttribute('id','table2');
     unicObj1ElemTable.style.width = '50%';
     unicObj1ElemTable.style.border = '2px solid black';
@@ -420,8 +558,8 @@ function addTable2() {
 }
 
 function addTable3() {
-    const unicObj2ElemTable = document.createElement('table1');
-    unicObj2ElemTable.setAttribute('id','table2');
+    const unicObj2ElemTable = document.createElement('table3');
+    unicObj2ElemTable.setAttribute('id','table3');
     unicObj2ElemTable.style.width = '50%';
     unicObj2ElemTable.style.border = '2px solid black';
         let thead = document.createElement('thead');
