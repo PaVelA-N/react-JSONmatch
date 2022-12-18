@@ -453,13 +453,13 @@ function addTable1(ar) {
 
         let row_1 = document.createElement('tr');
         let heading_1 = document.createElement('th');
-        heading_1.innerHTML = "Ключ1";
+        heading_1.innerHTML = "Одинаковые ключи. Ключ обьекта 1";
         let heading_2 = document.createElement('th');
-        heading_2.innerHTML = "Значение1";
+        heading_2.innerHTML = "Значение обьекта 1";
         let heading_3 = document.createElement('th');
-        heading_3.innerHTML = "Ключ2";
+        heading_3.innerHTML = "Ключ обьекта 2";
         let heading_4 = document.createElement('th');
-        heading_4.innerHTML = "Значение2";
+        heading_4.innerHTML = "Значение обьекта 2";
 
         row_1.appendChild(heading_1);
         row_1.appendChild(heading_2);
@@ -527,13 +527,13 @@ function addTable2() {
 
         let row_1 = document.createElement('tr');
         let heading_1 = document.createElement('th');
-        heading_1.innerHTML = "Ключ1";
+        heading_1.innerHTML = "Уникальные ключи обьекта 1";
         let heading_2 = document.createElement('th');
-        heading_2.innerHTML = "Значение1";
+        heading_2.innerHTML = " Значение обьекта 1";
         let heading_3 = document.createElement('th');
-        heading_3.innerHTML = "Ключ2";
+        heading_3.innerHTML = "-";
         let heading_4 = document.createElement('th');
-        heading_4.innerHTML = "Значение2";
+        heading_4.innerHTML = "-";
 
         row_1.appendChild(heading_1);
         row_1.appendChild(heading_2);
@@ -545,9 +545,9 @@ function addTable2() {
     let row_2_data_1 = document.createElement('td');
     row_2_data_1.innerHTML = "1.";
     let row_2_data_2 = document.createElement('td');
-    row_2_data_2.innerHTML = "James Clerk";
+    row_2_data_2.innerHTML = "Unic 1 key";
     let row_2_data_3 = document.createElement('td');
-    row_2_data_3.innerHTML = "Netflix";
+    row_2_data_3.innerHTML = "Unic 1 elem";
 
     row_2.appendChild(row_2_data_1);
     row_2.appendChild(row_2_data_2);
@@ -570,13 +570,13 @@ function addTable3() {
 
         let row_1 = document.createElement('tr');
         let heading_1 = document.createElement('th');
-        heading_1.innerHTML = "Ключ1";
+        heading_1.innerHTML = "Уникальные ключи обьекта 2";
         let heading_2 = document.createElement('th');
-        heading_2.innerHTML = "Значение1";
+        heading_2.innerHTML = " Значение2";
         let heading_3 = document.createElement('th');
-        heading_3.innerHTML = "Ключ2";
+        heading_3.innerHTML = "- ";
         let heading_4 = document.createElement('th');
-        heading_4.innerHTML = "Значение2";
+        heading_4.innerHTML = "-";
 
         row_1.appendChild(heading_1);
         row_1.appendChild(heading_2);
@@ -588,9 +588,9 @@ function addTable3() {
     let row_2_data_1 = document.createElement('td');
     row_2_data_1.innerHTML = "1.";
     let row_2_data_2 = document.createElement('td');
-    row_2_data_2.innerHTML = "James Clerk";
+    row_2_data_2.innerHTML = "Unic 2 key";
     let row_2_data_3 = document.createElement('td');
-    row_2_data_3.innerHTML = "Netflix";
+    row_2_data_3.innerHTML = "Unic 2 elem";
 
     row_2.appendChild(row_2_data_1);
     row_2.appendChild(row_2_data_2);
