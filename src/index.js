@@ -26,33 +26,37 @@ const props={body:'', row:'', text:'', key:'', keyValue:'', tbl:'',td: '',tr: ''
 props.body = document.body;
 
 const obj1 = {
-    akey: "a1g",
-    bkey: "b2",
-    c1key: "b1",
-    dkey: ["d2","d3"],
-    ekey: {v: 1, g: 2},
-//     fkey: {a: 1, b: {v: 1, g: 2}},
+    akey: "a1f",
+    bkey: true,
+    c1key: "122",
+    // dkey: ["d11", "d111", 112,23456, true, null, undefined],
+    dkey: ["d11", 112, [12,13]],
+    ekey: {vv: 111, g: 1111},
+    fkey: {a: 1, ErrDontShowIt: {v: 1, Show2TimesThisLast: 12}},
 //     gkey: null,
-//     hkey: [21,22,{vm: 1, gm: 2},24],
-//     jkey: null,
+    //  hkey: [121,122,{vm: 1, gm: 12},124],
+    //  jkey: null,
+    //  kkey: undefined,
 };
 
 const obj2 = {
-    akey: "a1g",
-    bkey: {vb: 1, gb: 2},
-    c2key: "c1",
-    dkey: ["d2","d3"],
-    ekey: {ve: 1, ge: 2},
-    // fkey1: {a: 1, b: 2},
-    // fkey2: {a: 1, b: {v: 1, g: 2}},
-    // fkey3: {a: 1, b: {v: 1, g: {gv: 12, gg: 22}}},
+    akey: "a2g",
+    bkey: true,
+    // bkey: {vb: 21, g12b: 22},
+    c1key: "234c1",
+    dkey: ["d2","d23"],
+    ekey: {ve: 221, ge: 2222},
+    fkey: {a: 21, b: 2},
+    // fkey2: {a: 21, b: {v: 221, g: 2}},
+    // fkey3: {a: 21, b: {v: 221, g: {gv: 212, gg: 22}}},
     // gkey: null,
-    // hkey1: [21,22,23,24],
+    hkey: [21,22,23,24],
     // hkey2: [21,22,{vm: 1, gm: 2},24],
-    // jkey: null,
+    jkey: null,
+    kkey: undefined,
 };
 
-props.obj = obj2; 
+// props.obj = obj2; 
 let compProps={};
 compProps.obj1 = obj1;
 compProps.obj2 = obj2;
@@ -93,47 +97,48 @@ function objShow (props) {
             )
   }
 
-  function showElement (props) {
-    let keysArray = Object.keys(props.obj);
-    let valueArray = Object.values(props.obj);
+function showElement (props) {
+    let keysArray;
+    let valueArray;
+    // if (props.objType==='array') 
+        if (props.objType==='array') {
+            keysArray = [...Array(props.arr.length)];
+            valueArray = props.arr;
+            console.log('if + ' + props.arr);
+            console.log('if  val+ ' + valueArray);
+        } else {
+            keysArray = Object.keys(props.obj);
+            valueArray = Object.values(props.obj);
+        }
     const rows = keysArray.length; 
-    // НИЖЕ РАБОТАЮЩИЙ МЕХАНИЗМ ВВОДА ДАННЫХ В ЯЧЕЙКИ ТАБЛИЦЫ
-    // let t = document.getElementById("table1");
-    // // console.log(t);
-    //      let trs = t.getElementsByTagName("tr");
-    //     //  console.log(trs);
-    //      let tds = t.getElementsByTagName("td");
-    //     //  console.log(tds);
-    //      tds[0].innerHTML = 'Х-Х';
 
+    let zzz;
+    let xxx = '';
          switch (props.objType) {
            case 'array':
-           return ('<ul> Element is Array. See below: </ul>');
-           return (
-            <div> 
-                 {[...Array(rows).keys()].map(row => (
-                    props.key = keysArray[row],
-                    props.value = valueArray[row],
-                    props.row = row,
-                    // selectTypeOfElement(props) 
-                    selectTypeOfElement2(props)
-                ))}
-            </div>
-            )
+            xxx = 'Array = [' + '</ul>';
+                for (let row = 0; row < rows; row++  ) {
+                    props.key = keysArray[row];
+                    props.value = valueArray[row];
+                    props.row = row;
+                    zzz = selectTypeOfElement2(props);
+                    console.log(zzz);
+                    xxx += '<ul>' +row + ' : ' +  zzz + '</ul>';
+                }
+                xxx += ']';
+                return ('<ul>' + xxx + '</ul>')
                     break;
            case 'object':
-                // return ('<ul> Element is Object. See below: </ul>');
-                return (
-                    <div> 
-                         {[...Array(rows).keys()].map(row => (
-                            props.key = keysArray[row],
-                            props.value = valueArray[row],
-                            props.row = row,
-                            selectTypeOfElement(props) 
-                            // selectTypeOfElement2(props) 
-                        ))}
-                    </div>
-                    )
+            xxx = 'Object = {';
+           for (let row = 0; row < rows; row++  ) {
+                props.key = keysArray[row];
+                props.value = valueArray[row];
+                props.row = row;
+                zzz = selectTypeOfElement2(props);
+                xxx += '<ul>' + props.key +' : ' +  zzz + '</ul>';
+                }
+                xxx += '}';
+                return ('<ul>' + xxx + '</ul>')
                     break;        
         }  
   }
@@ -189,47 +194,39 @@ function selectTypeOfElement(props) {
 function selectTypeOfElement2(props) {
     let row = props.row;
     let typeSelector = props.value;
+    let yyy;
     switch (typeof typeSelector) {
         case 'string': 
-        return (
-            <div className="string-row" key={row} >       {            renderElement2(props)        }            </div>
-        )
+        return (props.value) 
                 break;
         case 'number': 
-        return (
-            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
-        )
+        return (props.value) 
                 break;
         case 'boolean': 
-        return (
-            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
-        )
+        return (props.value) 
                 break;
         case 'symbol': 
-        return (
-            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
-        )
+            return (props.value) 
                 break;
         case 'undefined': 
-        return (
-            <div className="string-row" key={row}>         {            renderElement2(props)        }        </div>
-        )
+        return (props.value) 
                 break;
                 case 'object': 
                    if (typeSelector === null) {
-                       renderElement2(props);
+                    return ('null');
                    } else {
                         if (typeSelector instanceof Array){
-                            props.obj=props.value;
-                            document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : is Array' +  '</ul>';    
-                            objShow(props);
-                            return ('xxxx')
+                            props.arr = props.value;
+                            props.objType = 'array';
+                            yyy=showElement(props);
+                            // return ('<ul>' + props.key + ' : is Array' +  yyy +  '</ul>')
+                            return (yyy);
                        }
                        else{
                            props.obj=props.value;
-                           document.getElementById('root1').innerHTML += '<ul>' + props.key + ' : is Object' +  '</ul>';    
-                           objShow(props);
-                           return ('yyyy')
+                            props.objType = 'object';
+                            yyy=showElement(props);
+                           return (yyy)
                         }
                    }
                 break;	 
@@ -243,136 +240,13 @@ function renderElement(props) {
 
 function renderElement2(props) {
      return ('<ul>' + props.key + ' : ' + props.value + '</ul>');
-}
+     }
 
 // objShow (props);
 
 addTable1(compProps.arrSame);
 addTable2(compProps.arr1Unic);
 addTable3(compProps.arr2Unic);
-
-props.objType = 'string';
-showElement()
-
-// function tableCreate() {
-
-//     const tbl = document.createElement('table');
-//         tbl.setAttribute('id','table1');
-//         tbl.style.width = '50%';
-//         tbl.style.border = '2px solid black';
-
-// for (let rowIndex = 0; rowIndex <2; rowIndex++) { /*(let key in obj) */
-// let tr = tbl.insertRow(); /* tr видимо Table Row ? */
-// tr.setAttribute('id','rowIndex'+ rowIndex);
-
-// for (let colIndex = 0; colIndex < 2; colIndex++) { /*столбец */
-// // if (rowIndex === 3 && colIndex === 4) {
-// //     break;
-// // } else 
-// {
-//     if (colIndex === 0) {
-//         props.text='aaaa';
-//         newCell(props);                
-//     } else {
-//         // text=key;
-//         props.text = 'bbb';
-//         newCell(props);                
-//     }
-//     // colIndex +=1
-//     // newCell(props);
-// }
-// }
-// }
-// }
-
-// function newCell(){
-//     td = tr.insertCell();
-//     td.appendChild(document.createTextNode(`Column: ${colIndex}; Key/Value: ${text}`));
-//     // props.td.appendChild(document.createTextNode(`props.tbl. ${props.tbl} tr: ${props.tr} td: ${props.td} rowIndex: ${props.rowIndex} / colIndex: ${props.colIndex}`));
-//     td.style.border = '1px solid black';
-//             // if (i === 4 && j === 1) {
-//             // td.setAttribute('rowSpan', '4');
-//             // }
-//     body.appendChild(tbl);
-// }
-
-// tableCreate()
-
-// function deepCopyObject(objToCopy){
-//    let inFunctionObj_copy={};
-   
-//    for (let key in objToCopy) {
-//            switch (typeof objToCopy[key]) {
-//                case 'number': 
-//                    inFunctionObj_copy[key]= objToCopy[key];
-//                break;	 
-//                case 'undefined': 
-//                    inFunctionObj_copy[key]= 'undefined';			      		
-//                break;	 
-//                case 'boolean': 
-//                    inFunctionObj_copy[key]= objToCopy[key];			      		
-//                break;	 
-//                case 'string': 
-//                    inFunctionObj_copy[key]= objToCopy[key];
-//                break;	 
-//                case 'symbol': 
-//                    inFunctionObj_copy[key]= objToCopy[key];			      		
-//                break;	 
-//                case 'object': 
-//                    if (objToCopy[key] === null) {
-//                        inFunctionObj_copy[key]= null;
-//                    } else {
-//                        if (objToCopy[key] instanceof Array){
-//                            inFunctionObj_copy[key]= deepCopyArray(objToCopy[key]);
-//                        }
-//                        else{
-//                            inFunctionObj_copy[key]= deepCopyObject(objToCopy[key]);
-//                        }
-//                    }
-//                break;	 
-//            }
-//    };
-//    return inFunctionObj_copy;
-// }
-// function deepCopyArray(arrToCopy){
-//    let inFunctionArr_copy=[];
-   
-//    for (let i=0; i < arrToCopy.length; i++) {
-//            switch (typeof arrToCopy[i]) {
-//                case 'number': 
-//                    inFunctionArr_copy[i]= arrToCopy[i];
-//                break;	 
-//                case 'undefined': 
-//                    inFunctionArr_copy[i]= 'undefined';			      		
-//                break;	 
-//                case 'boolean': 
-//                    inFunctionArr_copy[i]= arrToCopy[i];			      		
-//                break;	 
-//                case 'string': 
-//                    inFunctionArr_copy[i]= arrToCopy[i];
-//                break;	 
-//                case 'symbol': 
-//                    inFunctionArr_copy[i]= arrToCopy[i];			      		
-//                break;	 
-//                case 'object': 
-//                if (arrToCopy[i] === null) {
-//                        inFunctionArr_copy[i]= null;
-//                    } else {
-//                        if (arrToCopy[i] instanceof Array){
-//                            inFunctionArr_copy[i]= deepCopyArray(arrToCopy[i]);
-//                        }
-//                        else{
-//                            inFunctionArr_copy[i]= deepCopyObject(arrToCopy[i]);
-//                        }
-//                    }
-//                break;	 
-//            }
-//    };
-//    return inFunctionArr_copy;
-// }
-
-// Obj_copy = deepCopyObject(obj);
-
 
 //  const root = ReactDOM.createRoot(document.getElementById('root'));
 //  root.render( <   table/>);
@@ -453,7 +327,7 @@ function addTable1(ar) {
 
         let row_1 = document.createElement('tr');
         let heading_1 = document.createElement('th');
-        heading_1.innerHTML = "Одинаковые ключи. Ключ обьекта 1";
+        heading_1.innerHTML = "Same keys. Ключ обьекта 1";
         let heading_2 = document.createElement('th');
         heading_2.innerHTML = "Значение обьекта 1";
         let heading_3 = document.createElement('th');
@@ -480,16 +354,19 @@ function addTable1(ar) {
         switch (typeof typeSelector) {
             case 'object':
                 if (typeSelector === null) {
+                    row_2_data_2.innerHTML='null';
                     } else {
                          if (typeSelector instanceof Array){
+                            row_2_data_2.innerHTML='';
                             props.objType = 'array';
                             props.arr = obj1[ar[i]];
-                            row_2_data_2.innerHTML = showElement(props);
+                            row_2_data_2.innerHTML += showElement(props);
                         }
                         else{
+                            row_2_data_2.innerHTML='';
                             props.objType = 'object';
                             props.obj = obj1[ar[i]];
-                            row_2_data_2.innerHTML = showElement(props);
+                            row_2_data_2.innerHTML += showElement(props);
                          }
                     break;        
         }  
