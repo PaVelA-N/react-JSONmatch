@@ -1,5 +1,6 @@
 {
   "name": "my-app1",
+  "name1": "my-app1",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,7 +27,7 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
+      null,
       "not op_mini all"
     ],
     "development": [

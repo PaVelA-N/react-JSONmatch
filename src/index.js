@@ -3,18 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
-
-let obj1 = require('./JSON for match/data1.json');
-let obj2 = require('./JSON for match/data2.json');
-console.log('the json obj1: ', obj1);
-console.log('the json obj2: ', obj2);
+let compProps={};
+compProps.obj1 = require('./JSON for match/data1.json');
+compProps.obj2 = require('./JSON for match/data2.json');
 
 // function loadFilefunction(){
 //     fetch('https://github.com/PaVelA-N/react-JSONmatch/blob/master/data1.json')
 //     .then(alert('test'))
-//     .then(console.log('test'))
 //     .then((response) => response.json())
-//     .then(console.log('response'))
 //     .then((json) => console.log(json));
 
 // let urliOfJSON = 'https://github.com/PaVelA-N/react-JSONmatch/blob/master/data1.json'
@@ -56,112 +52,121 @@ console.log('the json obj2: ', obj2);
     //   }
 // }
 
-let compProps={};
-compProps.obj1 = obj1;
-compProps.obj2 = obj2;
-
 function allUnicKeys(compProps){
     let arr1 = Object.keys(compProps.obj1).sort();
     let arr2 = Object.keys(compProps.obj2).sort();
-    // console.log('arr1 :' + arr1);
-    // console.log('arr2 :' + arr2);
    
     let arrSame1D = arr1.filter(num => arr2.includes(num));
     let arr1Unic1D = arr1.filter(num => !arr2.includes(num));
     let arr2Unic1D = arr2.filter(num => !arr1.includes(num));
-    // console.log('arrSame1D :' + arrSame1D);
-    // console.log('arr1Unic1D :' + arr1Unic1D);
-    // console.log('arr2Unic1D :' + arr2Unic1D);
-    let arrSame2D = [];
-    let arr1Unic2D = [];
-    let arr2Unic2D = [];
-
-    while(arrSame1D.length) arrSame2D.push(arrSame1D.splice(0,1).concat('commonKey'));
-     while(arr1Unic1D.length) arr1Unic2D.push(arr1Unic1D.splice(0,1).concat('unic1Key'));
-     while(arr2Unic1D.length) arr2Unic2D.push(arr2Unic1D.splice(0,1).concat('unic2Key'));
+    let arrSame2D = arr1DInto2DWhithKeyMark(arrSame1D, 'commonKey');
+    let arr1Unic2D = arr1DInto2DWhithKeyMark(arr1Unic1D, 'unic1Key');
+    let arr2Unic2D = arr1DInto2DWhithKeyMark(arr2Unic1D, 'unic2Key');
  
     let allKeysArray2D = [...arrSame2D, ...arr1Unic2D,...arr2Unic2D];
-    // console.log('allKeysArray2D :')
-    // console.log(allKeysArray2D);
     compProps.allKeysArray2D = allKeysArray2D;
-    return compProps;
+    // return compProps;
 }
+
+function arr1DInto2DWhithKeyMark(arr1D, keyMark){
+    let arr2D=[];
+    while (arr1D.length) {arr2D.push(arr1D.splice(0,1).concat(keyMark))}
+    return arr2D;
+}
+
 allUnicKeys(compProps);
 
-  function showObject(compProps){
+function showObject(compProps){
     let allKeysArray2D = compProps.allKeysArray2D;
-    let obj1 = compProps.obj1;
     let result = allKeysArray2D.map(function(item) {
+    let elem1 = showElement(compProps.obj1[item[0]]);
+    let elem2 = showElement(compProps.obj2[item[0]]);
         switch (item[1]) {
             case 'commonKey':
-                    let elem1 = showElement(obj1[item[0]]);
-                    let elem2 = showElement(obj2[item[0]]);
-                    if (elem1===elem2) {
-                        // console.log('elem1 = elem2');
-                        return <tr key={item}>
-                        <td>{item[0]}</td>
-                        <td style={{ color: 'green' }}> {'Общий ключ'}</td> 
-                        <td>{elem1}</td> 
-                        <td style={{ color: 'darkgreen', 'backgroundColor': 'lightgreen'}}>{elem2}</td>
-                        </tr>;                
-                    } else {
-                        // console.log('elem1 < > elem2');
-                        return <tr key={item}>
-                        <td>{item[0]}</td>
-                        <td style={{ color: 'green'}}> {'Общий ключ'}</td> 
-                        <td>{elem1}</td> 
-                        <td style={{ color: 'red', 'backgroundColor': 'yellow'}}>{elem2}</td>
-                        </tr>;                
-                    }
-                break;
+                return (
+                        showRowOfTable(compProps, item, 'Общий ключ', elem1, elem2)      
+                        );                
             case 'unic1Key':
-                return <tr key={item}>
-                <td>{item[0]}</td>
-                <td>{'Уник. ключ 1-го об.'}</td>
-                <td>{showElement(obj1[item[0]])}</td>
-                <td>{' - нет - '}</td>
-                </tr>;                
-                break;
-            case 'unic2Key':
-                return <tr key={item}>
-                <td>{item[0]}</td>
-                <td>{'Уник. ключ 2-го об.'}</td>
-                <td>{' - нет - '}</td>
-                <td>{showElement(obj2[item[0]])}</td>
-                </tr>;                
-                break;
+                return (
+                    showRowOfTable(compProps, item, 'Уник. ключ 1-го об.', elem1, ' - нет - ' )                
+                    );                
+            case 'unic2Key': 
+                return (
+                    showRowOfTable(compProps, item, 'Уник. ключ 2-го об.', ' - нет - ', elem2)
+                    );              
         }
     });
     return (result);
 }
+
+function showRowOfTable(compProps, item, Text1, Text2, Text3){
+if (Text2 === Text3) {
+return (
+    <tr key={item}>
+    <td style={{'whiteSpace':'pre-wrap', 'backgroundColor': 'Palegreen'}}>{item[0]}</td>
+    <td style={{'whiteSpace':'pre-wrap', 'backgroundColor': 'Palegreen'}}>{Text1}</td>
+    <td style={{'whiteSpace':'pre-wrap'}}>{Text2}</td>
+    <td style={{'whiteSpace':'pre-wrap', 'backgroundColor': 'lightgreen'}} >{Text3}</td>
+    </tr>);
+} else {
+    Text3 = checkStrings(Text2, Text3);
+    return (
+        <tr key={item}>
+        <td style={{'whiteSpace':'pre-wrap', 'backgroundColor': 'LightCyan'}} >{item[0]}</td>
+        <td style={{'whiteSpace':'pre-wrap', 'backgroundColor': 'LightCyan'}}>{Text1}</td>
+        <td style={{'whiteSpace':'pre-wrap'}}>{Text2}</td>
+        <td style={{'whiteSpace':'pre-wrap', color: 'red', 'backgroundColor': 'lightyellow'}} >{Text3}</td>
+        </tr>);
+}
+}
+
+function checkStrings(str1, str2) {
+    str1 = Array.isArray(str1) ? str1 : str1.split(',');
+    str2 = Array.isArray(str2) ? str2 : str2.split(',');
+    let result = '';
+
+    for (var i=0; i<str2.length; i++) {
+        if (str2[i] !== str1[i]) 
+            str2[i] =  str2[i] ;
+    }
+
+    return str2.join(',');
+    // return ('XXX' + <span class='highlight'>);
+    
+    // return str2.forEach(function(str2) {result += str2.name + ', '});
+    // authors.forEach(
+    //     function(author) {
+    //         result += author.name + ', ';
+    //     }
+    // );
+
+}
+
 function showElement(element){
-    // console.log('Начало showElement, на входе element: ' +element );
 switch (typeof element) {
     case 'string':
-        return(element)        
+        return(element);        
         break;
     case 'number':
-        return(element )        
+        return(element)        
         break;
     case 'symbol':
         return(element)        
         break;
     case 'boolean':
-        return('"' + element+'"')        
+        return('' + element+'')        
         break;
     case 'undefined':
-        return('"' + element +'"')        
+        return('' + element +'')        
         break;
-//------------------------ Object ----------------------------
+//------------------------ Object (Null/Array/Object) ----------------------------
             case 'object':
                 if (element === null) {
-                    return('"' + element+'"')
+                    return('' + element+'')
                     } else {
                          if (element instanceof Array){
                             let resultArr = element.map(function(item) {return ' ' +showElement(item)});
-                            // console.log('array result1:');
-                            // console.log(result1);
-                            return('Array: [ ' + resultArr + ' ]')
+                             return('[ ' + resultArr + ' ]')
                         } else{
                             let resultKey;
                             let resultValue;
@@ -169,10 +174,9 @@ switch (typeof element) {
                             Object.entries(element).forEach(([key, value]) => {
                                 resultKey = key;
                                 resultValue = showElement(value);
-                                // console.log(' -res-: ' + `${resultKey} ${resultValue}`);
-                                resultObj += resultKey + ' : ' + resultValue + ', ' ;    
+                                resultObj += resultKey + ' : ' + resultValue + ', '+'\n';    
                                 });
-                            return('Object: { ' + resultObj +'}')
+                            return('{'+'\n' + resultObj + '}' +'\n')
                         }
                     }
                     break;        

@@ -1,5 +1,6 @@
 {
   "name": "my-app2",
+  "name2": "my-app2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
