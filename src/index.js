@@ -8,37 +8,37 @@ import "./index.css";
 // let obj2 = require("./JSON for match/data2.json");
 
 let obj1 = {
-  // SameKeySameValue: "sameValue",
-  // sameKeyDiffValue: "DiffValue1",
-  // sameKeyDiffTypeOfValue: {ab:"Diff_Type_Of_Value"},
-  // bkey: true,
+  SameKeySameValue: "sameValue",
+  sameKeyDiffValue: "DiffValue1",
+  sameKeyDiffTypeOfValue: {ab:"Diff_Type_Of_Value"},
+  bkey: true,
   // c1key: {
   //        a: { x: 1, y: 3 },
   //        b: null,
   //        c: [ "8", 7, [ 9, 0 ] ],
   //        d: [ "8", 7, { x1: 2, y1: 5 }, 'a'],
-  //        e: [ "8", null, [ 9, 0 ] ],
+  //        e: [ "8", null, { x: null, y: 3 } ],
   //      },
-  // dkey: ["d2","d23"],
-  d11key: ["d11", 112, [12,13]],
-  // d2key: ["d11", "d111", 112,23456, true, null, undefined],
-  // d12key: ["d11", 112, {x: 12, z: 13}],
-  // ekey: {vv: 221, g: 1111}, /* проработать!*/
-  // fkey: {a: 1, ErrDontShowIt: {v: 1, Show2: 12}},
-  // gkey: null,
-  // hkey: [121,122,{vm: 12, gm: 12},124],
-  // jkey: [null],
-  // jkey2: [undefined],
-  // kkey: undefined,
-  // lkey: {a: true, z: null, g: undefined},
+  dkey: ["d2","d23"],
+  d11key: [11, [12,13,22, 43]],
+  d2key: ["d11", "d111", 112,23456, true, null, undefined],
+  d12key: ["d11", 12, {x: 12, z: 13}],
+  ekey: {vv: 221, g: 1111}, /* проработать!*/
+  fkey: {a: 1, ErrDontShowIt: {v: 1, Show2: 12}},
+  gkey: null,
+  hkey: [121,122,{vm: 12, gm: 12},124],
+  jkey: [null],
+  jkey2: [undefined],
+  kkey: undefined,
+  lkey: {a: true, z: null, g: undefined},
 };
 let obj2 = {
-  // SameKeySameValue: "sameValue",
-  // sameKeyDiffValue: "DiffValue2",
-  // sameKeyDiffTypeOfValue: "Diff_Type_Of_Value",
-  // b21key: true,
-  // b22key: {vb: 21, g12b: 22},
-  // c2key: "234c1",
+  SameKeySameValue: "sameValue",
+  sameKeyDiffValue: "DiffValue2",
+  sameKeyDiffTypeOfValue: "Diff_Type_Of_Value",
+  b21key: true,
+  b22key: {vb: 21, g12b: 22},
+  c2key: "234c1",
   // c1key: {
   //   a: { x: 1, y: { x: null, y: 3 } },
   //   b: true,
@@ -46,27 +46,27 @@ let obj2 = {
   //   d: [ "8", 7, { x1: true, y1: 5 }, 'a'],
   //   e: [ "8", null, [ 9, 0 ] ],
   // },
-  // dkey: ["d2","d231"],
-  d11key: ["d11", 112, [12,14]],
-  // d12key: ["d11", 112, {x: undefined, z: 13}],
-  // d2key: ["d11", "d111", 112,23456, true, null, undefined],
-  // ekey: {vv: 221, ge: 2222}, /* вот тут проблема видимо т.к. общий ключ но составы обьекта разные*/
-  // fkey: {a: undefined, ErrDontShowIt: {v: 1, Show2: 12}},
-  // f21key: {a: 21, b: 2},
-  // f22key2: {a: 21, b: {v: 221, g: 2}},
-  // f23key3: {a: 21, b: {v: 221, g: {gv: 212, gg: 22}}},
-  // gkey: null,
-  // hkey: [121,122,{vm: 12, gm: 12},124],
-  // h21key: [21,22,23,24],
-  // h22key: [21,22,{vm: 1, gm: 2},24],
-  // jkey: null,
-  // jkey2: [undefined],
-  // kkey: undefined, /*тоже не хочет в паре работать*/
-  // lkey: {z: null, g: undefined},
+  dkey: ["d2","d231"],
+  d11key: [ 11, [12,14,22]],
+  d12key: ["d11", 13, {x: 12, z: 15}],
+  d2key: ["d11", "d111", 112,23456, true, null, undefined],
+  ekey: {vv: 221, ge: 2222}, /* вот тут проблема видимо т.к. общий ключ но составы обьекта разные*/
+  fkey: {a: undefined, ErrDontShowIt: {v: 1, Show2: 12}},
+  f21key: {a: 21, b: 2},
+  f22key2: {a: 21, b: {v: 221, g: 2}},
+  f23key3: {a: 21, b: {v: 221, g: {gv: 212, gg: 22}}},
+  gkey: null,
+  hkey: [121,122,{vm: 12, gm: 12},124],
+  h21key: [21,22,23,24],
+  h22key: [21,22,{vm: 1, gm: 2},24],
+  jkey: null,
+  jkey2: [undefined],
+  kkey: undefined, /*тоже не хочет в паре работать*/
+  lkey: {z: null, g: undefined},
 };
-let diffObject1 ={KeyMark:{}, ValueMark:{}};
-let diffObject2 ={KeyMark:{}, ValueMark:{}};
-
+let diffObject1={KeyMark:{}, ValueMark:{}};
+let diffObject2={KeyMark:{}, ValueMark:{}};
+// ={KeyMark:{}, ValueMark:{}};
 let diff_Object1 = {KeyMark:{}, ValueMark:{}};
 let diff_Object2 = {KeyMark:{}, ValueMark:{}};
 
@@ -177,7 +177,7 @@ function ValueMatching(value1, value2, typeOfBothValue) {
       return "sameValue";
     default:
       console.log(
-        "59) Ошибка в ValueMatching. value1 = ",
+        "179) Ошибка в ValueMatching. value1 = ",
         value1,
         "; value2= ",
         value2,
@@ -209,8 +209,8 @@ function TypeMatching(obj1, obj2) {
   }
 }
 
-function MainFunction(obj1, obj2) {
-  // запускает FindDiff для всех первичных ключей
+function MainFunction(obj1, obj2, diffObj1, diffObj2) {
+  // запускает ShowDiffOf2Objects для всех первичных ключей
 
   let arr1 = Object.keys(obj1).sort();
   let arr2 = Object.keys(obj2).sort();
@@ -236,12 +236,7 @@ function MainFunction(obj1, obj2) {
     if (arr2Unic.includes(item)) {
       spanMarkJeneral = "obj2UnicKey";
     }
-    // if (item === 't1') {console.log('133) item === t1;' + spanMarkJeneral + '-key')}
-    
-      diffObject1.KeyMark[item]=spanMarkJeneral + "-key";
-      diffObject1.ValueMark[item]=spanMarkJeneral + "-obj1";
-      diffObject2.KeyMark[item]=spanMarkJeneral + "-key";
-      diffObject2.ValueMark[item]=spanMarkJeneral + "-obj2";
+
     return (
 
       <tr key={item}>
@@ -253,10 +248,10 @@ function MainFunction(obj1, obj2) {
           <span className={spanMarkJeneral + "-diff"}>{spanMarkJeneral}</span>
         </td> */}
         <td>
-          {item} : {ShowAnyType(diff_Object1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diff_Object1.ValueMark[item])}
+          {item} : {ShowAnyType(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj1.ValueMark[item])}
         </td>
         <td>
-          {item} : {ShowAnyType(diff_Object2.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diff_Object2.ValueMark[item])}
+          {item} : {ShowAnyType(diffObj2.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj2.ValueMark[item])}
         </td>
       </tr>
     );
@@ -272,8 +267,8 @@ function ShowDiffOf2Objects(obj1, obj2, spanMarkJeneral, item) {
   // let spanMarkSameTypeCheck = spanMarkJeneral.substring(0,8);
   // console.log('119) spanMarkSameTypeCheck= ', spanMarkSameTypeCheck);
 
-      console.log('278) type1= ', DefindMyTypeOf(obj1))
-      console.log('279) type2= ', DefindMyTypeOf(obj2))
+      // console.log('278) type1= ', DefindMyTypeOf(obj1))
+      // console.log('279) type2= ', DefindMyTypeOf(obj2))
 
   switch (spanMarkJeneral) {
     case "obj1UnicKey":
@@ -543,9 +538,9 @@ function MakeDiffObject (obj1, obj2, diff_Object1, diff_Object2){
             let ValueMatchingResult = ValueMatching(obj1[index], obj2[index], TypeMatchingResult);
             // console.log('544) TypeMatchingResult', TypeMatchingResult)
             let spanMarkJeneral = TypeMatchingResult +"-" + ValueMatchingResult;
-            console.log('546) spanMarkJeneral', spanMarkJeneral)
+            // console.log('546) spanMarkJeneral', spanMarkJeneral)
             if ((TypeMatchingResult.substring(0, 8) === "sameType")/*&&(ValueMatchingResult.substring(0, 9) === "sameValue")*/) {
-              console.log('548) index= ', index ,'; obj1[index] = ', obj1[index],'; obj2[index] = ', obj2[index])
+              // console.log('548) index= ', index ,'; obj1[index] = ', obj1[index],'; obj2[index] = ', obj2[index])
               diff_Object1.ValueMark[index] =  CreateMarkBelow2(obj1[index], '-obj1', diff_Object1.ValueMark[index], spanMarkJeneral)      
               diff_Object2.ValueMark[index] =  CreateMarkBelow2(obj2[index], '-obj2', diff_Object2.ValueMark[index], spanMarkJeneral)      
               // MakeDiffObject(obj1[index], obj2[index], diff_Object1.ValueMark[index], diff_Object2.ValueMark[index])
@@ -651,9 +646,184 @@ function MakeDiffObject (obj1, obj2, diff_Object1, diff_Object2){
     // KeySpanMark = 'diffType'
     // ValueSpanMark = 'diffValue'
     console.log('653) Непредвиденная обработка разных типов в MakeDiffObject')
-    diff_Object1.ValueMark = CreateMarkBelow(obj1, diff_Object1.ValueMark, KeySpanMark, ValueSpanMark)
-    diff_Object2.ValueMark = CreateMarkBelow(obj2, diff_Object2.ValueMark, KeySpanMark, ValueSpanMark)      
+    // diff_Object1.ValueMark = CreateMarkBelow(obj1, diff_Object1.ValueMark, KeySpanMark, ValueSpanMark)
+    // diff_Object2.ValueMark = CreateMarkBelow(obj2, diff_Object2.ValueMark, KeySpanMark, ValueSpanMark)      
   }
+}
+
+function Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2){
+  // diff_Object1.ValueMark;
+  // diff_Object2.ValueMark;
+  // diffObject= []  diffObject= {KeyMark:{}, ValueMark:{}}
+  let resultArray = [];
+  // console.log('503 obj1= ', obj1,'; obj2= ',obj2,'; diff_Object1=,',diff_Object1,' ; diff_Object2= ', diff_Object2)
+  
+    let type1 = DefindMyTypeOf(obj1);
+    let type2 = DefindMyTypeOf(obj2);
+    let KeySpanMark;
+    let ValueSpanMark;
+    console.log('665) type1 =', type1 ,'; type2= ',  type2)
+    if (type1 === type2) {
+      // не уверен что оптимально выбираю места для ухода в рекурсию
+      switch (type1) {
+        case "primitiveType":
+          let TypeMatchingResult = 'sameType-primitiveType';
+          let ValueMatchingResult = ValueMatching(obj1, obj2, TypeMatchingResult);
+          // console.log('544) TypeMatchingResult', TypeMatchingResult)
+          let spanMarkJeneral = TypeMatchingResult +"-" + ValueMatchingResult;
+        //   // diff_Object1.KeyMark[item] =  spanMarkJeneral +'-key'
+          diff_Object1 =  spanMarkJeneral +'-obj1'
+        //   // diff_Object2.KeyMark[item] =  spanMarkJeneral +'-key'
+          diff_Object2 =  spanMarkJeneral +'-obj2'
+          break;
+        case "undefinedType":
+          console.log('677) case "undefinedType":')
+          break;
+        case "arrayType":
+          diff_Object1.ValueMark=[];
+          diff_Object2.ValueMark=[];
+            let Obj1Length= obj1.length
+            let Obj2Length= obj2.length
+            let MinLength = Math.min(Obj1Length, Obj2Length)
+            let MaxLength = Math.max(Obj1Length, Obj2Length)
+  
+            for (let index=0; index<MinLength; index++) {
+              let TypeMatchingResult = TypeMatching(obj1[index], obj2[index]);
+              let ValueMatchingResult = ValueMatching(obj1[index], obj2[index], TypeMatchingResult);
+              // console.log('691) TypeMatchingResult', TypeMatchingResult)
+              let spanMarkJeneral = TypeMatchingResult +"-" + ValueMatchingResult;
+              if (TypeMatchingResult.substring(0, 8) === "sameType") {
+                // diff_Object1, diff_Object2
+                if (ValueMatchingResult.substring(0, 9) === "sameValue") {
+                  diff_Object1.ValueMark[index] =  CreateMarkBelow2(obj1[index], '-obj1', diff_Object1.ValueMark[index], spanMarkJeneral)      
+                  diff_Object2.ValueMark[index] =  CreateMarkBelow2(obj2[index], '-obj2', diff_Object2.ValueMark[index], spanMarkJeneral)      
+                } else {
+                  console.log('701) spanMarkJeneral', spanMarkJeneral)
+                  console.log('702) index= ', index ,'; obj1[index] = ', obj1[index],'; obj2[index] = ', obj2[index])
+                  diff_Object1.ValueMark[index]=[]
+                  diff_Object2.ValueMark[index]=[]
+                  // QUESTION почему надо diff_Object(i).ValueMark[index]=[] тут и в 683-684 строках объявить?
+                  // diff_Object1.ValueMark[index] =  CreateMarkBelow2(obj1[index], '-obj1', diff_Object1.ValueMark[index], spanMarkJeneral)      
+                  // diff_Object2.ValueMark[index] =  CreateMarkBelow2(obj2[index], '-obj2', diff_Object2.ValueMark[index], spanMarkJeneral)      
+                  let transfArray = Make2DiffObjects(obj1[index], obj2[index], diff_Object1.ValueMark[index],diff_Object2.ValueMark[index] )
+                  diff_Object1.ValueMark[index] = transfArray[0]
+                  diff_Object2.ValueMark[index] = transfArray[1]
+                  console.log('708) transfArray= ', transfArray)
+                  console.log('709) diff_Object1.ValueMark= ', diff_Object1.ValueMark ,'; diff_Object2.ValueMark = ', diff_Object2.ValueMark)
+                }
+
+                diff_Object1.ValueMark[index]={ValueMark:[]};
+                diff_Object2.ValueMark[index]={ValueMark:[]};
+
+                let transfArray = Make2DiffObjects(obj1[index], obj2[index], diff_Object1.ValueMark[index],diff_Object2.ValueMark[index] )
+                console.log('705) transfArray= ', transfArray)
+                diff_Object1.ValueMark[index] = transfArray[0]
+                diff_Object2.ValueMark[index] = transfArray[1]
+              } else {
+                // TODO #2 = сделано! тут вариант если типы разные => (Diff Type) + и без вариантов Diff Value  
+                KeySpanMark = 'diffType'
+                ValueSpanMark = 'diffValue'
+                diff_Object1.ValueMark[index] =  CreateMarkBelow2(obj1[index], '-obj1', diff_Object1.ValueMark[index], KeySpanMark+'-'+ValueSpanMark)      
+                diff_Object2.ValueMark[index] =  CreateMarkBelow2(obj2[index], '-obj2', diff_Object2.ValueMark[index], KeySpanMark+'-'+ValueSpanMark)      
+              }
+          } 
+  
+          for (let index=MinLength; index<MaxLength; index++) {
+            // TODO #3 = сделано! надо проверить корректность реализации: тут вариант для уникальных индексов массива (превышающих длинну другого массива) unicValue. 
+            if (Obj1Length===MaxLength) {
+              ValueSpanMark = 'obj1UnicKey'
+              diff_Object1.ValueMark[index] = CreateMarkBelow2(obj1[index], '-obj1', diff_Object1.ValueMark[index], ValueSpanMark)
+            } else {
+              ValueSpanMark = 'obj2UnicKey'
+              diff_Object2.ValueMark[index] = CreateMarkBelow2(obj2[index], '-obj2', diff_Object2.ValueMark[index], ValueSpanMark)
+            }
+          }
+          break;
+        case "objectType":{
+          diff_Object1 = {KeyMark:{}, ValueMark:{}};
+          diff_Object2 = {KeyMark:{}, ValueMark:{}};
+          let arr1 = Object.keys(obj1).sort();
+          let arr2 = Object.keys(obj2).sort();
+  
+          let arrSame = arr1.filter((num) => arr2.includes(num));
+          let arr1Unic = arr1.filter((num) => !arr2.includes(num));
+          let arr2Unic = arr2.filter((num) => !arr1.includes(num));
+        
+          let keysArray = AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2);
+          keysArray.map(function (item) {
+            if (arrSame.includes(item)) {
+              let TypeMatchingResult = TypeMatching(obj1[item], obj2[item]);
+              // console.log('577) ', TypeMatchingResult)
+              let spanMarkJeneral =
+                TypeMatchingResult +
+                "-" +
+                ValueMatching(obj1[item], obj2[item], TypeMatchingResult);
+                // console.log(spanMarkJeneral)
+                if (TypeMatchingResult.substring(0, 8) === "sameType"){
+                  // console.log('585) ', TypeMatchingResult)
+                  diff_Object1.KeyMark[item] =  spanMarkJeneral +'-key'
+                  diff_Object2.KeyMark[item] =  spanMarkJeneral +'-key'
+                  switch (TypeMatchingResult) {
+                    case 'sameType-objectType':
+                      diff_Object1.ValueMark[item] = {ValueMark:{}};
+                      diff_Object2.ValueMark[item] = {ValueMark:{}};
+                      break;
+                    case 'sameType-arrayType':
+                      diff_Object1.ValueMark[item] = {ValueMark:[]};
+                      diff_Object2.ValueMark[item] = {ValueMark:[]};
+                      break;
+                      default:
+                      break;
+                  }
+                  let transfArray = Make2DiffObjects (obj1[item], obj2[item], diff_Object1.ValueMark[item], diff_Object2.ValueMark[item])
+                  diff_Object1.ValueMark[item] = transfArray[0];
+                  diff_Object2.ValueMark[item] = transfArray[1];
+                } else {
+                  // блок разметки ключей разных типов ключей. 
+                  KeySpanMark = 'diffType'
+                  ValueSpanMark = 'diffValue'
+                  // console.log('612) KeySpanMark = diffType; item=', item, 'obj1[item]= ',obj1[item],'; obj2=',obj2[item])
+                  diff_Object1.KeyMark[item] =  spanMarkJeneral +'-key1'
+                  diff_Object2.KeyMark[item] =  spanMarkJeneral +'-key2'
+                  
+                  diff_Object1.ValueMark[item] =  CreateMarkBelow2(obj1[item], '-obj1', diff_Object1.ValueMark[item], KeySpanMark+'-'+ValueSpanMark)      
+                  diff_Object2.ValueMark[item] =  CreateMarkBelow2(obj2[item], '-obj2', diff_Object2.ValueMark[item], KeySpanMark+'-'+ValueSpanMark)      
+                }
+            }
+            //Ниже идут два блока разметки уникальных ключей. 
+            if (arr1Unic.includes(item)) {
+              diff_Object1.KeyMark[item] =   'obj1UnicKey' + '-key1'
+              diff_Object1.ValueMark[item] =  CreateMarkBelow2(obj1[item], '-obj1', diff_Object1.ValueMark[item], 'obj1UnicKey')
+              diff_Object2.KeyMark[item] =   'obj1UnicKey' + '-key2'
+              diff_Object2.ValueMark[item] =  CreateMarkBelow2(obj2[item], '-obj2', diff_Object2.ValueMark[item], 'obj1UnicKey')
+            }
+            if (arr2Unic.includes(item)) {
+              diff_Object1.KeyMark[item] =   'obj2UnicKey' + '-key1'
+              diff_Object1.ValueMark[item] =  CreateMarkBelow2(obj1[item], '-obj1', diff_Object1.ValueMark[item], 'obj2UnicKey')
+              diff_Object2.KeyMark[item] =   'obj2UnicKey' + '-key2'
+              diff_Object2.ValueMark[item] =  CreateMarkBelow2(obj2[item], '-obj2', diff_Object2.ValueMark[item], 'obj2UnicKey')
+            }
+          })
+        }  
+          break;
+        default: 
+          console.log('635) Ошибка в Make2DiffObjects. obj1 = ', obj1 ,'; obj2 = ', obj2)
+          console.log('634) Ошибка в Make2DiffObjects. type1= ', type1 , '; type2 = ', type2)
+          break;
+      }
+    } else {
+      // возможно этот блок не нужен т.к. разные типы обрабатываюся внутри case "arrayType" (стр 521) и case "objectType" (стр 564)
+      // ??? TODO #4 = сделано! надо проверить корректность реализации: тут вариант если типы разные => (Diff Type) + и без вариантов Diff Value
+      // TODO - надо попробовать закомментить этот блок на сложном обьекте
+      // KeySpanMark = 'diffType'
+      // ValueSpanMark = 'diffValue'
+      console.log('653) Непредвиденная обработка разных типов в Make2DiffObjects')
+      // diff_Object1.ValueMark = CreateMarkBelow(obj1, diff_Object1.ValueMark, KeySpanMark, ValueSpanMark)
+      // diff_Object2.ValueMark = CreateMarkBelow(obj2, diff_Object2.ValueMark, KeySpanMark, ValueSpanMark)      
+  }
+resultArray[0]=diff_Object1;
+resultArray[1]=diff_Object2;
+return (resultArray)
 }
 
 function CreateMarkBelow2(obj, objName, diffObject, SpanMark){
@@ -691,43 +861,12 @@ function CreateMarkBelow2(obj, objName, diffObject, SpanMark){
   return diffObject;
 }
 
-function CreateMarkBelow(obj, diffObject, KeySpanMark, ValueSpanMark){
-  let diffObjectInternal;
-  console.log('686) obj =',obj,' diffObject=', diffObject, KeySpanMark, ValueSpanMark)
-  let type = DefindMyTypeOf(obj);
-  switch (type) {
-    case "primitiveType":
-      diffObjectInternal = ValueSpanMark
-      break;
-    case "undefinedType":
-      diffObjectInternal = ValueSpanMark
-      break;
-    case "arrayType":
-      diffObjectInternal = obj.forEach((element, index) => {
-        diffObject.ValueMark[element] = CreateMarkBelow(element, diffObject[index], KeySpanMark, ValueSpanMark)
-      });
-      break;
-    case "objectType":
-      // diffObject = {KeyMark:{}, ValueMark:{}}
-      let x = {KeyMark: {}, ValueMark:{}}
-      diffObjectInternal = Object.entries(obj).forEach(
-    ([key, value]) => {
-      // console.log('557) key=', key)
-      x.KeyMark[key] = KeySpanMark
-      x.ValueMark[key] =  ValueSpanMark
-      return x
-      // console.log('559) diffObject=', diffObject)
-      // CreateMarkLevel(obj[key], diffObject.ValueMark[key])
-    // CreateMarkLevel(value, diffObject.ValueMark[key]})
-    }
-    );
-      break;
-    default: console.log('700) Ошибка в CreateMarkLevel. obj= ', obj)
-      break;
-  }   
-  return diffObjectInternal 
-}
 MakeDiffObject (obj1, obj2, diff_Object1, diff_Object2)
+
+let transfArray= Make2DiffObjects(obj1, obj2, diffObject1, diffObject2)
+
+diffObject1 = transfArray[0]
+diffObject2 = transfArray[1]
 
 function ShowAnyType(obj, spanMarkLocal) {
   let type = DefindMyTypeOf(obj);
@@ -894,7 +1033,7 @@ function ShowObject(obj, spanMarkLocal) {
   );
 }
 
-function createTable(obj1, obj2) {
+function createTable(obj1, obj2,diffObj1,diffObj2) {
   return (
     <table>
       <thead>
@@ -907,30 +1046,7 @@ function createTable(obj1, obj2) {
           <td>Diff-Object2</td>
         </tr>
       </thead>
-      <tbody>{MainFunction(obj1, obj2)}</tbody>
-    </table>
-  );
-}
-
-function createDiffTable(obj1, obj2) {
-  // console.log('775) createDiffTable obj1 = ', obj1)
-  // console.log('776) createDiffTable obj2 = ', obj2)
-  return (
-    <table>
-      <thead>
-        <tr>
-          <td>Ключ</td>
-          <td>Diff_1</td>
-          <td>Diff_2</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td><table><tbody>{ShowAnyType(obj1)}</tbody></table> </td>
-          <td><table><tbody>{ShowAnyType(obj2)}</tbody></table> </td>
-        </tr>
-      </tbody>
+      <tbody>{MainFunction(obj1, obj2,diffObj1,diffObj2)}</tbody>
     </table>
   );
 }
@@ -969,48 +1085,9 @@ function AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2) {
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// const root1 = ReactDOM.createRoot(document.getElementById("root1"));
-// const root2 = ReactDOM.createRoot(document.getElementById("root2"));
-let table = createTable(obj1, obj2);
-// let table1 = createDiffTable(diffObject1, diffObject2)
-// let table2 = createDiffTable(diff_Object1, diff_Object2)
+const root1 = ReactDOM.createRoot(document.getElementById("root1"));
+let table = createTable(obj1, obj2, diff_Object1, diff_Object2);
+let table1 = createTable(obj1, obj2, diffObject1, diffObject2);
 root.render(table);
-// root1.render(table1);
-// root2.render(table2);
+root1.render(table1);
 
-// function MyInfo() {
-//   let textBlock =
-//     <div>
-//     <h1>Name</h1>
-//     <p>short story</p>
-//       <ul>
-//         <li>1</li>
-//         <ol>
-//           <li><span style={{color:'green', backgroundColor: 'lightgreen'}}>place 1: Palawan </span></li>
-//           <li>place 2: Jamayca </li>
-//           <li>place 3: Munich</li>
-//         </ol>
-//         <li>2</li>
-//           <ul>
-//             <li>1</li>
-//             <li>2</li>
-//             <li>3</li>
-//           </ul>
-//         <li>3</li>
-//       </ul>
-//     </div>;
-//     return (textBlock);
-//   }
-
-// root.render(<MyInfo/>);
-
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-
-// reportWebVitals();
