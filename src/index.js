@@ -8,10 +8,10 @@ import "./index.css";
 // let obj2 = require("./JSON for match/data2.json");
 
 let obj1 = {
-  SameKeySameValue: "sameValue",
-  sameKeyDiffValue: "DiffValue1",
-  sameKeyDiffTypeOfValue: {ab:"Diff_Type_Of_Value"},
-  bkey: true,
+  // SameKeySameValue: "sameValue",
+  // sameKeyDiffValue: "DiffValue1",
+  // sameKeyDiffTypeOfValue: {ab:"Diff_Type_Of_Value"},
+  // bkey: true,
   // c1key: {
   //        a: { x: 1, y: 3 },
   //        b: null,
@@ -20,25 +20,25 @@ let obj1 = {
   //        e: [ "8", null, { x: null, y: 3 } ],
   //      },
   dkey: ["d2","d23"],
-  d11key: [11, [12,13,22, 43]],
-  d2key: ["d11", "d111", 112,23456, true, null, undefined],
-  d12key: ["d11", 12, {x: 12, z: 13}],
-  ekey: {vv: 221, g: 1111}, /* проработать!*/
-  fkey: {a: 1, ErrDontShowIt: {v: 1, Show2: 12}},
-  gkey: null,
-  hkey: [121,122,{vm: 12, gm: 12},124],
+  // d11key: [11, [12,13,22, 43]],
+  // d2key: ["d11", "d111", 112,23456, true, null, undefined],
+  // d12key: ["d11", 12, {x: 12, z: 13}],
+  // ekey: {vv: 221, g: 1111}, /* проработать!*/
+  // fkey: {a: 1, ErrDontShowIt: {v: 1, Show2: 12}},
+  // gkey: null,
+  // hkey: [121,122,{vm: 12, gm: 12},124],
   jkey: [null],
   jkey2: [undefined],
-  kkey: undefined,
-  lkey: {a: true, z: null, g: undefined},
+  // kkey: undefined,
+  // lkey: {a: true, z: null, g: undefined},
 };
 let obj2 = {
-  SameKeySameValue: "sameValue",
-  sameKeyDiffValue: "DiffValue2",
-  sameKeyDiffTypeOfValue: "Diff_Type_Of_Value",
-  b21key: true,
-  b22key: {vb: 21, g12b: 22},
-  c2key: "234c1",
+  // SameKeySameValue: "sameValue",
+  // sameKeyDiffValue: "DiffValue2",
+  // sameKeyDiffTypeOfValue: "Diff_Type_Of_Value",
+  // b21key: true,
+  // b22key: {vb: 21, g12b: 22},
+  // c2key: "234c1",
   // c1key: {
   //   a: { x: 1, y: { x: null, y: 3 } },
   //   b: true,
@@ -46,27 +46,27 @@ let obj2 = {
   //   d: [ "8", 7, { x1: true, y1: 5 }, 'a'],
   //   e: [ "8", null, [ 9, 0 ] ],
   // },
-  dkey: ["d2","d231"],
-  d11key: [ 11, [12,14,22]],
-  d12key: ["d11", 13, {x: 12, z: 15}],
-  d2key: ["d11", "d111", 112,23456, true, null, undefined],
-  ekey: {vv: 221, ge: 2222}, /* вот тут проблема видимо т.к. общий ключ но составы обьекта разные*/
-  fkey: {a: undefined, ErrDontShowIt: {v: 1, Show2: 12}},
-  f21key: {a: 21, b: 2},
-  f22key2: {a: 21, b: {v: 221, g: 2}},
-  f23key3: {a: 21, b: {v: 221, g: {gv: 212, gg: 22}}},
-  gkey: null,
-  hkey: [121,122,{vm: 12, gm: 12},124],
-  h21key: [21,22,23,24],
-  h22key: [21,22,{vm: 1, gm: 2},24],
-  jkey: null,
-  jkey2: [undefined],
-  kkey: undefined, /*тоже не хочет в паре работать*/
-  lkey: {z: null, g: undefined},
+  // dkey: ["d2","d231"],
+  // d11key: [ 11, [12,14,22]],
+  // d12key: ["d11", 13, {x: 12, z: 15}],
+  // d2key: ["d11", "d111", 112,23456, true, null, undefined],
+  // ekey: {vv: 221, ge: 2222}, /* вот тут проблема видимо т.к. общий ключ но составы обьекта разные*/
+  // fkey: {a: undefined, ErrDontShowIt: {v: 1, Show2: 12}},
+  // f21key: {a: 21, b: 2},
+  // f22key2: {a: 21, b: {v: 221, g: 2}},
+  // f23key3: {a: 21, b: {v: 221, g: {gv: 212, gg: 22}}},
+  // gkey: null,
+  // hkey: [121,122,{vm: 12, gm: 12},124],
+  // h21key: [21,22,23,24],
+  // h22key: [21,22,{vm: 1, gm: 2},24],
+  // jkey: null,
+  // jkey2: [undefined],
+  // kkey: undefined, /*тоже не хочет в паре работать*/
+  // lkey: {z: null, g: undefined},
 };
 let diffObject1={KeyMark:{}, ValueMark:{}};
 let diffObject2={KeyMark:{}, ValueMark:{}};
-// ={KeyMark:{}, ValueMark:{}};
+
 let diff_Object1 = {KeyMark:{}, ValueMark:{}};
 let diff_Object2 = {KeyMark:{}, ValueMark:{}};
 
@@ -208,6 +208,9 @@ function TypeMatching(obj1, obj2) {
     return "diffType";
   }
 }
+function GetSpanMark(diffObject1, item){
+return diffObject1[item]
+}
 
 function MainFunction(obj1, obj2, diffObj1, diffObj2) {
   // запускает ShowDiffOf2Objects для всех первичных ключей
@@ -241,12 +244,62 @@ function MainFunction(obj1, obj2, diffObj1, diffObj2) {
 
       <tr key={item}>
         <td>
-          <span className={spanMarkJeneral + "-key"}>"{item}" :</span>
+          {/* <span className={spanMarkJeneral + "-key"}>"{item}" :</span> */}
+          <span className={GetSpanMark(diffObj1.KeyMark, item)}>"{item}" :</span>
         </td>
           {ShowDiffOf2Objects(obj1[item], obj2[item], spanMarkJeneral, item)}
         {/* <td>
           <span className={spanMarkJeneral + "-diff"}>{spanMarkJeneral}</span>
         </td> */}
+        <td>
+          {item} : {ShowAnyType(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj1.ValueMark[item])}
+        </td>
+        <td>
+          {item} : {ShowAnyType(diffObj2.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj2.ValueMark[item])}
+        </td>
+      </tr>
+    );
+  });
+  return resultArr;
+}
+
+function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
+  // запускает ShowAnyType для всех первичных ключей
+
+  let arr1 = Object.keys(obj1).sort();
+  let arr2 = Object.keys(obj2).sort();
+  let arr1Unic = arr1.filter((num) => !arr2.includes(num));
+  let arr2Unic = arr2.filter((num) => !arr1.includes(num));
+
+  let keysArray = AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2);
+
+  let resultArr = keysArray.map(function (item) {
+
+    let TypeMatchingResult = TypeMatching(obj1[item], obj2[item]);
+
+    let spanMarkJeneral = TypeMatchingResult + "-" + ValueMatching(obj1[item], obj2[item], TypeMatchingResult);
+    if (arr1Unic.includes(item)) {
+      spanMarkJeneral = "obj1UnicKey";
+    }
+    if (arr2Unic.includes(item)) {
+      spanMarkJeneral = "obj2UnicKey";
+    }
+
+    return (
+      <tr key={item}>
+        <td>
+          <span className={GetSpanMark(diffObj1.KeyMark, item)}>"{item}" :</span>
+        </td>
+        <td>
+          <span className={GetSpanMark(diffObj1.ValueMark, item)}>
+            {ShowAnyType(obj1[item], diffObj1.ValueMark[item])}
+          </span>
+        </td>
+        <td>
+          <span className={GetSpanMark(diffObj2.ValueMark, item)}>
+            {ShowAnyType(obj2[item], diffObj2.ValueMark[item])}
+          </span>
+        </td>
         <td>
           {item} : {ShowAnyType(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj1.ValueMark[item])}
         </td>
@@ -662,7 +715,7 @@ function Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2){
     let type2 = DefindMyTypeOf(obj2);
     let KeySpanMark;
     let ValueSpanMark;
-    console.log('665) type1 =', type1 ,'; type2= ',  type2)
+    // console.log('665) type1 =', type1 ,'; type2= ',  type2)
     if (type1 === type2) {
       // не уверен что оптимально выбираю места для ухода в рекурсию
       switch (type1) {
@@ -887,8 +940,31 @@ function ShowAnyType(obj, spanMarkLocal) {
       return ShowPrimitive(obj);
   }
 }
+function ShowAnyType2(obj, DiffObject, item) {
+  let type = DefindMyTypeOf(obj);
+        // console.log('742) функц ShowAnyType. type= ',type,'; obj= ',obj);
+  switch (type) {
+    case "primitiveType":
+      if (type === undefined) {
+        return "undef xxx";
+      } else {
+        return ShowPrimitive2(obj);
+      }
+    case "arrayType":
+      return ShowArray2(obj, DiffObject, item);
+    case "objectType":
+      // console.log('752) функц ShowAnyType. obj= ',obj);
+      return ShowObject2(obj, DiffObject, item);
+    default:
+      return ShowPrimitive2(obj);
+  }
+}
 
 function ShowPrimitive(obj) {
+  return "" + obj;
+}
+
+function ShowPrimitive2(obj) {
   return "" + obj;
 }
 
@@ -936,6 +1012,73 @@ function ShowArray(arr, spanMarkLocal) {
           <tr key={"key_" + index}>
             <td>
               <span className={spanMarkLocal}>
+                {"Ошибка функт. ShowArray стр. 311"}
+              </span>
+            </td>
+          </tr>
+        );
+    }
+  });
+
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td>&#91;</td>
+        </tr>
+        {resultArr}
+        <tr>
+          <td>&#93;</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function ShowArray2(arr, DiffObject, item) {
+  let resultArr = arr.map(function (item, index) {
+    switch (DefindMyTypeOf(item)) {
+      case "primitiveType":
+        return (
+          <tr key={"key_" + index}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, index)}>{ShowAnyType(item)}</span>
+            </td>
+          </tr>
+        );
+      case "undefinedType":
+        return (
+          <tr key={"key_" + index}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, index)}>{ShowPrimitive(item)}</span>
+            </td>
+          </tr>
+        );
+      case "arrayType":
+        return (
+          <tr key={"key_" + index}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, index)}>
+                {ShowAnyType2(item, DiffObject.Value[index])}
+              </span>
+            </td>
+          </tr>
+        );
+      case "objectType":
+        return (
+          <tr key={"key_" + index}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, index)}>
+                {ShowAnyType2(item, DiffObject)}
+              </span>
+            </td>
+          </tr>
+        );
+      default:
+        return (
+          <tr key={"key_" + index}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, index)}>
                 {"Ошибка функт. ShowArray стр. 311"}
               </span>
             </td>
@@ -1011,7 +1154,81 @@ function ShowObject(obj, spanMarkLocal) {
           <tr key={"key_" + item}>
             <td>
               <span className={spanMarkLocal}>
-                {"Ошибка функт. ShowArray стр. 749"}
+                {"Ошибка функц. ShowArray стр. 1069"}
+              </span>
+            </td>
+          </tr>
+        );
+    }
+  });
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <td>&#123;</td>
+        </tr>
+        {resultArr}
+        <tr>
+          <td>&#125;</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function ShowObject2(obj, DiffObject, item) {
+  let keysArray = Object.keys(obj);
+  // console.log('699) keysArray= ', keysArray)
+  let resultArr = keysArray.map(function (item) {
+    // console.log('349) DefindMyTypeOf(item)', DefindMyTypeOf(obj[item]))
+    switch (DefindMyTypeOf(obj[item])) {
+      case "primitiveType":
+        return (
+          <tr key={"key_" + item}>
+            <td>"{item}" : </td>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, item)}>{ShowPrimitive(obj[item])}</span>
+            </td>
+          </tr>
+        );
+      case "undefinedType":
+        return (
+          <tr key={"key_" + item}>
+            <td>"{item}" : </td>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, item)}>{ShowPrimitive(obj[item])}</span>
+            </td>
+          </tr>
+        );
+      case "arrayType":
+        // console.log('359)', spanMarkLocal )
+        return (
+          <tr key={"key_" + item}>
+            <td>"{item}" : </td>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, item)}>
+                {ShowAnyType(obj[item], DiffObject.Value[item])}
+              </span>
+            </td>
+          </tr>
+        );
+      case "objectType":
+        return (
+          <tr key={"key_" + item}>
+            <td>"{item}" :</td>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, item)}>
+                {ShowAnyType(obj[item], DiffObject.Value[item])}
+              </span>
+            </td>
+          </tr>
+        );
+      default:
+        return (
+          <tr key={"key_" + item}>
+            <td>
+              <span className={GetSpanMark(DiffObject.Value, item)}>
+                {"Ошибка функц. ShowArray стр. 1069"}
               </span>
             </td>
           </tr>
@@ -1051,6 +1268,24 @@ function createTable(obj1, obj2,diffObj1,diffObj2) {
   );
 }
 
+function createTable3(obj1, obj2,diffObj1,diffObj2) {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <td>Ключ</td>
+          <td>JSON_1 (old)</td>
+          <td>JSON_2 (new)</td>
+          {/* <td>Diff-JeneralMark</td> */}
+          <td>Diff-Object1</td>
+          <td>Diff-Object2</td>
+        </tr>
+      </thead>
+      <tbody>{MainFunction2(obj1, obj2,diffObj1,diffObj2)}</tbody>
+    </table>
+  );
+}
+
 function DefindMyTypeOf(obj) {
   // return: primitiveType / undefinedType / arrayType / objectType
   switch (typeof obj) {
@@ -1086,7 +1321,7 @@ function AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2) {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const root1 = ReactDOM.createRoot(document.getElementById("root1"));
-let table = createTable(obj1, obj2, diff_Object1, diff_Object2);
+let table = createTable3(obj1, obj2, diff_Object1, diff_Object2);
 let table1 = createTable(obj1, obj2, diffObject1, diffObject2);
 root.render(table);
 root1.render(table1);
