@@ -46,7 +46,7 @@ let obj2 = {
   //   d: [ "8", 7, { x1: true, y1: 5 }, 'a'],
   //   e: [ "8", null, [ 9, 0 ] ],
   // },
-  // dkey: ["d2","d231"],
+  dkey: ["d2","d231"],
   // d11key: [ 11, [12,14,22]],
   // d12key: ["d11", 13, {x: 12, z: 15}],
   // d2key: ["d11", "d111", 112,23456, true, null, undefined],
@@ -275,30 +275,17 @@ function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
 
   let resultArr = keysArray.map(function (item) {
 
-    let TypeMatchingResult = TypeMatching(obj1[item], obj2[item]);
-
-    let spanMarkJeneral = TypeMatchingResult + "-" + ValueMatching(obj1[item], obj2[item], TypeMatchingResult);
-    if (arr1Unic.includes(item)) {
-      spanMarkJeneral = "obj1UnicKey";
-    }
-    if (arr2Unic.includes(item)) {
-      spanMarkJeneral = "obj2UnicKey";
-    }
-
+    console.log('287) diffObj1.ValueMark[item]=', diffObj1.ValueMark[item])
     return (
       <tr key={item}>
         <td>
-          <span className={GetSpanMark(diffObj1.KeyMark, item)}>"{item}" :</span>
+          <span className={diffObj1.KeyMark[item]}>"{item}" :</span>
         </td>
         <td>
-          <span className={GetSpanMark(diffObj1.ValueMark, item)}>
-            {ShowAnyType(obj1[item], diffObj1.ValueMark[item])}
-          </span>
+            {ShowAnyType2(obj1[item], diffObj1.ValueMark[item], item)}
         </td>
         <td>
-          <span className={GetSpanMark(diffObj2.ValueMark, item)}>
-            {ShowAnyType(obj2[item], diffObj2.ValueMark[item])}
-          </span>
+            {ShowAnyType2(obj2[item], diffObj2.ValueMark[item], item)}
         </td>
         <td>
           {item} : {ShowAnyType(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj1.ValueMark[item])}
@@ -941,6 +928,7 @@ function ShowAnyType(obj, spanMarkLocal) {
   }
 }
 function ShowAnyType2(obj, DiffObject, item) {
+  console.log('944) obj= ', obj,'; DiffObject=', DiffObject, '; item= ', item)
   let type = DefindMyTypeOf(obj);
         // console.log('742) функц ShowAnyType. type= ',type,'; obj= ',obj);
   switch (type) {
@@ -948,7 +936,11 @@ function ShowAnyType2(obj, DiffObject, item) {
       if (type === undefined) {
         return "undef xxx";
       } else {
-        return ShowPrimitive2(obj);
+        return (
+          <span className={DiffObject}>
+            {ShowPrimitive2(obj)}
+          </span>
+        )
       }
     case "arrayType":
       return ShowArray2(obj, DiffObject, item);
@@ -1042,7 +1034,7 @@ function ShowArray2(arr, DiffObject, item) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={GetSpanMark(DiffObject.Value, index)}>{ShowAnyType(item)}</span>
+              <span className={DiffObject[index]}>{ShowAnyType(item)}</span>
             </td>
           </tr>
         );
@@ -1050,7 +1042,7 @@ function ShowArray2(arr, DiffObject, item) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={GetSpanMark(DiffObject.Value, index)}>{ShowPrimitive(item)}</span>
+              <span className={DiffObject[index]}>{ShowPrimitive(item)}</span>
             </td>
           </tr>
         );
@@ -1058,9 +1050,8 @@ function ShowArray2(arr, DiffObject, item) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={GetSpanMark(DiffObject.Value, index)}>
                 {ShowAnyType2(item, DiffObject.Value[index])}
-              </span>
+
             </td>
           </tr>
         );
@@ -1068,9 +1059,9 @@ function ShowArray2(arr, DiffObject, item) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={GetSpanMark(DiffObject.Value, index)}>
+
                 {ShowAnyType2(item, DiffObject)}
-              </span>
+
             </td>
           </tr>
         );
@@ -1078,9 +1069,7 @@ function ShowArray2(arr, DiffObject, item) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={GetSpanMark(DiffObject.Value, index)}>
-                {"Ошибка функт. ShowArray стр. 311"}
-              </span>
+                {"Ошибка функт. ShowArray2 стр. 1072"}
             </td>
           </tr>
         );
@@ -1178,9 +1167,9 @@ function ShowObject(obj, spanMarkLocal) {
 
 function ShowObject2(obj, DiffObject, item) {
   let keysArray = Object.keys(obj);
-  // console.log('699) keysArray= ', keysArray)
+  // console.log('1181) obj= ', obj,'; DiffObject=', '; item= ', item)
   let resultArr = keysArray.map(function (item) {
-    // console.log('349) DefindMyTypeOf(item)', DefindMyTypeOf(obj[item]))
+    // console.log('1183) DefindMyTypeOf(item)', DefindMyTypeOf(obj[item]))
     switch (DefindMyTypeOf(obj[item])) {
       case "primitiveType":
         return (
