@@ -513,7 +513,7 @@ function getSpan(cb, item, DiffObject, index) {
 }
 
 function getTableRow(cb, item, type, DiffObject, index) {
-  console.log("tr get");
+  console.log("tr get:" + type);
   let dataContent;
   if(type === 'undefinedType' || type === 'primitiveType') {
     // dataContent = `<span className=${DiffObject[index]}>${cb(item)}</span>`;
@@ -545,32 +545,34 @@ function ShowArray2(arr, DiffObject, item) {
         //     </td>
         //   </tr>
         // );
-        console.log(getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index));
         return getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index);
       case "undefinedType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={DiffObject[index]}>{ShowPrimitive(item)}</span>
-            </td>
-          </tr>
-        );
+        // return (
+        //   <tr key={"key_" + index}>
+        //     <td>
+        //       <span className={DiffObject[index]}>{ShowPrimitive(item)}</span>
+        //     </td>
+        //   </tr>
+        // );
+        return getTableRow(ShowPrimitive, item, "undefinedType");
       case "arrayType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-                {ShowAnyType2(item, DiffObject[index])}
-            </td>
-          </tr>
-        );
+        // return (
+        //   <tr key={"key_" + index}>
+        //     <td>
+        //         {ShowAnyType2(item, DiffObject[index])}
+        //     </td>
+        //   </tr>
+        // );
+        return getTableRow(ShowAnyType2, item, "arrayType");
       case "objectType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-                {ShowAnyType2(item, DiffObject[index])}
-            </td>
-          </tr>
-        );
+        // return (
+        //   <tr key={"key_" + index}>
+        //     <td>
+        //         {ShowAnyType2(item, DiffObject[index])}
+        //     </td>
+        //   </tr>
+        // );
+        return getTableRow(ShowAnyType2, item, "objectType");
       default:
         return (
           <tr key={"key_" + index}>
