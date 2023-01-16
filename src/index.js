@@ -4,7 +4,7 @@ import "./index.css";
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
-import { uniqKeysFromObjects } from './helpers/objects'
+import { uniqKeysFromObjects, DefindMyTypeOf } from './helpers/objects'
 
 let obj1 = require("./JSON for match/data1.json");
 let obj2 = require("./JSON for match/data2.json");
@@ -505,19 +505,48 @@ function ShowArray(arr, spanMarkLocal) {
   );
 }
 
+
+function getSpan(cb, item, DiffObject, index) {
+  return (
+    <span className={DiffObject[index]}>{cb(item)}</span>
+  )
+}
+
+function getTableRow(cb, item, type, DiffObject, index) {
+  console.log("tr get");
+  let dataContent;
+  if(type === 'undefinedType' || type === 'primitiveType') {
+    // dataContent = `<span className=${DiffObject[index]}>${cb(item)}</span>`;
+    dataContent = getSpan(cb, item, DiffObject, index);
+  } else {
+    dataContent = cb(item);
+  }
+   
+
+  return (
+    <tr key={"key_" + index}>
+      <td>
+        {dataContent}
+      </td>
+    </tr>
+  );
+}
+
 function ShowArray2(arr, DiffObject, item) {
         // console.log('1062) arr = ',arr ,'; DiffObject= ', DiffObject)
   let resultArr = arr.map(function (item, index) {
     switch (DefindMyTypeOf(item)) {
       case "primitiveType":
         // console.log('1035 index = ',index,'; DiffObject[index]= ', DiffObject)
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={DiffObject[index]}>{ShowAnyType(item)}</span>
-            </td>
-          </tr>
-        );
+        // return (
+        //   <tr key={"key_" + index}>
+        //     <td>
+        //       <span className={DiffObject[index]}>{ShowAnyType(item)}</span>
+        //     </td>
+        //   </tr>
+        // );
+        console.log(getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index));
+        return getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index);
       case "undefinedType":
         return (
           <tr key={"key_" + index}>
@@ -758,26 +787,6 @@ function createTable3(obj1, obj2,diffObj1,diffObj2) {
   );
 }
 
-function DefindMyTypeOf(obj) {
-  // return: primitiveType / undefinedType / arrayType / objectType
-  switch (typeof obj) {
-    default:
-      return "primitiveType";
-    case "undefined":
-      return "undefinedType";
-    //------------------------ Object (Null/Array/Object) ----------------------------
-    case "object":
-      if (obj === null) {
-        return "primitiveType";
-      } else {
-        if (obj instanceof Array) {
-          return "arrayType";
-        } else {
-          return "objectType";
-        }
-      }
-  }
-}
 
 
 let transfArray;

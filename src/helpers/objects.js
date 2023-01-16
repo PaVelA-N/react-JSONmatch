@@ -9,3 +9,25 @@ export function uniqKeysFromObjects(obj1, obj2) {
   
     return allKeysArray;
 }
+
+
+export function DefindMyTypeOf(obj) {
+    // return: primitiveType / undefinedType / arrayType / objectType
+    switch (typeof obj) {
+      default:
+        return "primitiveType";
+      case "undefined":
+        return "undefinedType";
+      //------------------------ Object (Null/Array/Object) ----------------------------
+      case "object":
+        if (obj === null) {
+          return "primitiveType";
+        } else {
+          if (obj instanceof Array) {
+            return "arrayType";
+          } else {
+            return "objectType";
+          }
+        }
+    }
+  }
