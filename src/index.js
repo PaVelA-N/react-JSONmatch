@@ -4,6 +4,8 @@ import "./index.css";
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
+import { uniqKeysFromObjects } from './helpers/objects'
+
 let obj1 = require("./JSON for match/data1.json");
 let obj2 = require("./JSON for match/data2.json");
 
@@ -127,7 +129,7 @@ function GetSpanMark(diffObject, item){
 
 function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
   // запускает ShowAnyType2 для всех первичных ключей
-  let keysArray = AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2);
+  let keysArray = uniqKeysFromObjects(obj1, obj2);
   // console.log('286) diffObj1= ', diffObj1)
   let resultArr = keysArray.map(function (item) {
     // console.log('288) diffObj1.KeyMark[item]=', diffObj1.KeyMark[item])
@@ -254,7 +256,7 @@ function Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2){
           let arr1Unic = arr1.filter((num) => !arr2.includes(num));
           let arr2Unic = arr2.filter((num) => !arr1.includes(num));
         
-          let keysArray = AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2);
+          let keysArray = uniqKeysFromObjects(obj1, obj2);
           keysArray.map(function (item) {
             if (arrSame.includes(item)) {
               let TypeMatchingResult = TypeMatching(obj1[item], obj2[item]);
@@ -777,17 +779,6 @@ function DefindMyTypeOf(obj) {
   }
 }
 
-function AllKeysFrom2ObjectsIntoUnicKeysArray(obj1, obj2) {
-  let arr1 = Object.keys(obj1).sort();
-  let arr2 = Object.keys(obj2).sort();
-  let arrSame = arr1.filter((num) => arr2.includes(num));
-  let arr1Unic = arr1.filter((num) => !arr2.includes(num));
-  let arr2Unic = arr2.filter((num) => !arr1.includes(num));
-
-  let allKeysArray = [...arrSame, ...arr1Unic, ...arr2Unic];
-
-  return allKeysArray;
-}
 
 let transfArray;
 transfArray= Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2)
