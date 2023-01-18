@@ -408,42 +408,24 @@ function ShowAnyType(obj, spanMarkLocal) {
       if (type === undefined) {
         return "undef xxx";
       } else {
-        return ShowPrimitive(obj);
+        return String(obj);
       }
     case "arrayType":
       return ShowArray(obj, spanMarkLocal);
     case "objectType":
       return ShowObject(obj, spanMarkLocal);
     default:
-      return ShowPrimitive(obj);
+      return String(obj);
   }
 }
 function ShowAnyType2(obj, DiffObject, item) {
-  let type = DefindMyTypeOf(obj);
-  switch (type) {
-    case "primitiveType":
-      return <span className={DiffObject}>{ShowPrimitive2(obj)}</span>;
-    case "undefinedType":
-      if (obj !== undefined) {
-        console.log("950) Error - функц ShowAnyType2. type= ", type, "; obj= ", obj);
-        return null;
-      }
-      return <span className={DiffObject}>нет ключа</span>;
-    case "arrayType":
-      return ShowArray2(obj, DiffObject, item);
-    case "objectType":
-      return ShowObject2(obj, DiffObject, item);
-    default:
-      return ShowPrimitive2(obj);
+  if( Array.isArray(obj) ) {
+    return ShowArray2(obj, DiffObject, item);
   }
-}
-
-function ShowPrimitive(obj) {
-  return "" + obj;
-}
-
-function ShowPrimitive2(obj) {
-  return "" + obj;
+  if( typeof obj === 'object' && obj !== null) {
+    return ShowObject2(obj, DiffObject, item);
+  }
+  return <span className={DiffObject}>{String(obj)}</span>;
 }
 
 function ShowArray(arr, spanMarkLocal) {
@@ -462,7 +444,7 @@ function ShowArray(arr, spanMarkLocal) {
         return (
           <tr key={"key_" + index}>
             <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(item)}</span>
+              <span className={spanMarkLocal}>{String(item)}</span>
             </td>
           </tr>
         );
@@ -528,33 +510,26 @@ function getTableRow(cb, item, type, DiffObject, index) {
   );
 }
 
-function ShowArray2(arr, DiffObject, item) {
-  let resultArr = arr.map(function (item, index) {
-    switch (DefindMyTypeOf(item)) {
-      case "primitiveType":
-        return getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index);
-      case "undefinedType":
-        return getTableRow(ShowPrimitive, item, "undefinedType");
-      case "arrayType":
-        return getTableRow(ShowAnyType2, item, "arrayType");
-      case "objectType":
-        return getTableRow(ShowAnyType2, item, "objectType");
-      default:
-        return (
-          <tr key={"key_" + index}>
-            <td>{"Ошибка функт. ShowArray2 стр. 1072"}</td>
-          </tr>
-        );
-    }
-  });
-
+function ShowArray2(arr, DiffObject) {
   return (
     <table>
       <tbody>
         <tr>
           <td>&#91;</td>
         </tr>
-        {resultArr}
+        {arr.map((item, index) => {
+          if( Array.isArray(item) ) {
+            return ShowAnyType2(item, DiffObject)
+          }
+          if( typeof item === 'object' && item !== null ) {
+            return ShowAnyType2(item, DiffObject)
+          }
+          return <span className={DiffObject[index]}>{ShowAnyType2(item, DiffObject)}</span>
+        }).map((content, index) => (
+            <tr key={index}>
+              <td>{content}</td>
+            </tr>
+        ))}
         <tr>
           <td>&#93;</td>
         </tr>
@@ -572,7 +547,7 @@ function ShowObject(obj, spanMarkLocal) {
           <tr key={"key_" + item}>
             <td>"{item}" : </td>
             <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(obj[item])}</span>
+              <span className={spanMarkLocal}>{String(obj[item])}</span>
             </td>
           </tr>
         );
@@ -581,7 +556,7 @@ function ShowObject(obj, spanMarkLocal) {
           <tr key={"key_" + item}>
             <td>"{item}" : </td>
             <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(obj[item])}</span>
+              <span className={spanMarkLocal}>{String(obj[item])}</span>
             </td>
           </tr>
         );
@@ -639,7 +614,7 @@ function ShowObject2(obj, DiffObject, item) {
               <span className={DiffObject.KeyMark[item]}>"{item}" :</span>
             </td>
             <td>
-              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive2(obj[item])}</span>
+              <span className={DiffObject.ValueMark[item]}>{String(obj[item])}</span>
             </td>
           </tr>
         );
@@ -650,7 +625,7 @@ function ShowObject2(obj, DiffObject, item) {
               <span className={DiffObject.KeyMark[item]}>"{item}" :</span>
             </td>
             <td>
-              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive2(obj[item])}</span>
+              <span className={DiffObject.ValueMark[item]}>{String(obj[item])}</span>
             </td>
           </tr>
         );
