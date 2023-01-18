@@ -110,14 +110,13 @@ function GetSpanMark(diffObject, item) {
   }
 }
 
-function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
+function RootKeys({obj1, obj2, diffObj1, diffObj2}) {
   // запускает ShowAnyType2 для всех первичных ключей
-  let keysArray = uniqKeysFromObjects(obj1, obj2);
-  let resultArr = keysArray.map(function (item) {
-    return (
+  const keysArray = uniqKeysFromObjects(obj1, obj2);
+  return keysArray.map(item => (
       <tr key={item}>
         <td>
-          <span className={diffObj1.KeyMark[item]}>"{item}" :</span>
+          <span className={diffObj1.KeyMark[item]}>{item}</span>
         </td>
         <td>{ShowAnyType2(obj1[item], diffObj1.ValueMark[item], item)}</td>
         <td>{ShowAnyType2(obj2[item], diffObj2.ValueMark[item], item)}</td>
@@ -134,9 +133,7 @@ function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
           </>
         }
       </tr>
-    );
-  });
-  return resultArr;
+  ));
 }
 
 function Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2) {
@@ -704,7 +701,7 @@ function ShowObject2(obj, DiffObject, item) {
   );
 }
 
-function createTable3(obj1, obj2, diffObj1, diffObj2) {
+function CreateTable({obj1, obj2, diffObj1, diffObj2}) {
   return (
     <table>
       <thead>
@@ -720,7 +717,9 @@ function createTable3(obj1, obj2, diffObj1, diffObj2) {
           }
         </tr>
       </thead>
-      <tbody>{MainFunction2(obj1, obj2, diffObj1, diffObj2)}</tbody>
+      <tbody>
+        <RootKeys obj1={obj1} obj2={obj2} diffObj1={diffObj1} diffObj2={diffObj2} />
+      </tbody>
     </table>
   );
 }
@@ -731,5 +730,4 @@ diff_Object1 = transfArray[0];
 diff_Object2 = transfArray[1];
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-let table = createTable3(obj1, obj2, diff_Object1, diff_Object2);
-root.render(table);
+root.render(<CreateTable obj1={obj1} obj2={obj2} diffObj1={diff_Object1} diffObj2={diff_Object2} />);
