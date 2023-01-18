@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-
+import { config } from './config'; 
 import { uniqKeysFromObjects, DefindMyTypeOf } from "./helpers/objects";
 
 let obj1 = require("./JSON for match/data1.json");
@@ -121,14 +121,18 @@ function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
         </td>
         <td>{ShowAnyType2(obj1[item], diffObj1.ValueMark[item], item)}</td>
         <td>{ShowAnyType2(obj2[item], diffObj2.ValueMark[item], item)}</td>
-        <td>
-          {item} : {ShowAnyType2(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "
-          {ShowAnyType(diffObj1.ValueMark[item])}
-        </td>
-        <td>
-          {item} : {ShowAnyType2(diffObj2.KeyMark[item])} <br></br> <br></br>"Value: "
-          {ShowAnyType(diffObj2.ValueMark[item])}
-        </td>
+        {config.debug &&
+          <>
+            <td>
+              {item} : {ShowAnyType2(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "
+              {ShowAnyType(diffObj1.ValueMark[item])}
+            </td>
+            <td>
+              {item} : {ShowAnyType2(diffObj2.KeyMark[item])} <br></br> <br></br>"Value: "
+              {ShowAnyType(diffObj2.ValueMark[item])}
+            </td>
+          </>
+        }
       </tr>
     );
   });
@@ -708,8 +712,12 @@ function createTable3(obj1, obj2, diffObj1, diffObj2) {
           <td>Ключ</td>
           <td>JSON_1 (old)</td>
           <td>JSON_2 (new)</td>
-          <td>Diff-Object1</td>
-          <td>Diff-Object2</td>
+          {config.debug &&
+            <>
+              <td>Diff-Object1</td>
+              <td>Diff-Object2</td>
+            </>
+          }
         </tr>
       </thead>
       <tbody>{MainFunction2(obj1, obj2, diffObj1, diffObj2)}</tbody>
