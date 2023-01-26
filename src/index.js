@@ -816,15 +816,9 @@ const root1 = ReactDOM.createRoot(document.getElementById("root1"));
 // root.render(table);
 
 //------------------------ Промисы --------------------------------------------------------------------------
-
-// const callBackend = (result) => new Promise((resolve, reject) => 
-// setTimeout(() =>
-//  resolve(result), какая-то задержка, например с помощью Math.random))
-
 function getRandomInRange(min, max) {
   return Math.random() * (max - min) + min;
 }
-
 function createRandomObj(length, currentDepth, depth){
   let obj={};
   let randomPrimitiveValueSelector;
@@ -846,6 +840,40 @@ function createRandomObj(length, currentDepth, depth){
   }
   return obj;
 }
+function backEndAnswer(key){
+  const backEndAnswer = new Promise((resolve, reject) => {
+    let Answer;  
+    let AnswerDelay;
+    Answer = Math.round(getRandomInRange(0,11))>5 ? true : false
+    AnswerDelay = getRandomInRange(500,1000)
+    setTimeout(() => {
+      // console.log('926 ) рандомный Answer в промисе. пока не используется ', Answer)  
+      resolve(Answer)
+    }, AnswerDelay );
+    // reject('error'); 
+  });
+  return backEndAnswer
+}
+function filterObject(obj){
+  let filteredShallowObject={}
+  let filterOn=false;
+    Object.entries(obj).forEach(([key, value]) => {
+      // if (key ==='filter') {console.log('883) key ', key,'value', value)        }
+      if ((key ==='filter') && (value === true)) {
+        filterOn=true
+      } else {
+        if ((typeof(value) !='object')||(value ===null)) {
+          filteredShallowObject[key] = value
+        } else {
+          filteredShallowObject[key] = filterObject(value)
+        }
+      }
+    });
+
+    if ( filterOn===true) {filteredShallowObject = 'цензура'}
+  return filteredShallowObject
+}
+//++++++++++++++++++
 
 function makeFilterOn(obj){
   let objWithOnFilter={};
@@ -894,92 +922,164 @@ function makeFilterOn(obj){
   return objWithOnFilter
 }
 
-function filterObject(obj){
-  let filteredShallowObject={}
-  let filterOn=false;
-    Object.entries(obj).forEach(([key, value]) => {
-      // if (key ==='filter') {console.log('883) key ', key,'value', value)        }
-      if ((key ==='filter') && (value === true)) {
-        filterOn=true
-      } else {
-        if ((typeof(value) !='object')||(value ===null)) {
-          filteredShallowObject[key] = value
+function testPromiseParallel_makeFilterOn(obj){
+  let objWithOnFilter={};
+  let keysNameArray = Object.keys(obj)
+  console.log('2-928) keysNameArray: ', keysNameArray);
+
+  const RequestArray = 
+    keysNameArray.map(function(key) 
+    {if (key ==='filter') {
+          return ('filterKey')
         } else {
-          filteredShallowObject[key] = filterObject(value)
+          if (typeof(obj[key])!='object') {
+            return 'notObject'
+          } else {
+            return (backEndAnswer(key))
+          }
         }
-      }
-    });
+    })
+  console.log('3-912) RequestArray: ', RequestArray)
 
-    if ( filterOn===true) {filteredShallowObject = 'цензура'}
-  return filteredShallowObject
-}
+  Object.keys(obj).forEach(key =>{})
 
-function promiseFiltration(){
-  const backEndAnswer = new Promise((resolve, reject) => {
-    let Answer;  
-    let AnswerDelay;
-    Answer = Math.round(getRandomInRange(0,10))>5 ? true : false
-    AnswerDelay = getRandomInRange(100,500)
-    setTimeout(() => {
-      console.log('926 ) рандомный Answer в промисе. пока не используется ', Answer)  
-      resolve(Answer)
-    }, AnswerDelay );
-    // reject('error'); 
-  });
-
-  backEndAnswer
-  .then(
+  Promise.all([
+    RequestArray
+  ])
+    .then((responses) => {
+      // responses — массив результатов выполнения промисов
+      responses.forEach(resp => {
+        console.log('924 ',resp)
+      })
+    })
+    .then(
     result=>{
-    console.log('943) результат предыдущего: ', result)
-    let settedFiltersObject=initialObject;
-    if (typeof(settedFiltersObject["Name0-0"])==='object') {
-      settedFiltersObject["Name0-0"].filter=true
-      console.log('947) 2й then. Установка фильтра в Name0-0')
-    }
-    console.log('949) установленный фильтр: ',settedFiltersObject)
-    return (settedFiltersObject)
-    },
-    error => {
-      alert("939) Rejected: " + error); 
-      return error 
+      // if ниже выдает ошибку
+      // if (typeof(objWithOnFilter['Name0-0'])==='object'){objWithOnFilter['Name0-0']['filter']=true},
+      objWithOnFilter = returnWithFilter(obj, RequestArray)
+      console.log('4-924) обьект с фильтром: ', objWithOnFilter)
     }
   )
-  .then(
-    result=>{
-    console.log('956)  результат предыдущего: ', result)
-    let settedFiltersObject=initialObject;
-    if (typeof(settedFiltersObject["Name0-1"])==='object') {
-      settedFiltersObject["Name0-1"].filter=true
-      console.log('961) 3й then. Установка фильтра в Name0-1')
-    }
-    console.log('962) установленный фильтр: ',settedFiltersObject)
-    return (settedFiltersObject)
-    }
-  )  
-  .then(
-    result=>{
-      console.log('968) результат предыдущего: ', result)
-      let filteredObject =filterObject(result)
-      return (console.log('969) отфильтрованный обьект', filteredObject))
-    }
-  )
-  .catch(function (err) {
-    console.log('973) ',err)
-  })
-  .finally(function () {
-    console.log('976 The end. finally')
-  })
+  return objWithOnFilter
 }
 
-let testAnswer = promiseFiltration()
+function returnWithFilter(obj, RequestArray){
+  let keysNameArray = Object.keys(obj)
+  for (const [key, value] of Object.entries(obj)) {
+    if ((key !='filter')&&(typeof(value) === 'object')) {
+      let index = keysNameArray.indexOf(key)
+      console.log('7-937) key: ', key, '; index: ', index, '; RequestArray[index]: ', RequestArray[index])
+      obj[key].filter = RequestArray[index].then(result=>{return (result)})
+    }
+  }
+  
+  // тестовая заглушка
+  // if (typeof(obj['Name0-0'])==='object'){obj['Name0-0']['filter']=true}
+  
+  // Object.entries(obj).forEach(([key, value]) => {
+  //     if ((key !='filter')&&(typeof(value) === 'object')) {
+  //       let index = keysNameArray.indexOf(key)
+  //       console.log('921) key: ', key, '; index: ', index)
+  //       obj[key].filter = RequestArray[index]
+  //     }
+  //   });
+
+  return obj
+}
+
+// function parallelPromisesFiltration(keysNameArray){
+//   const RequestArray = 
+//   keysNameArray.map(key => 
+//     backEndAnswer
+//     .then((response) => {
+//       console.log('934', response)
+//       return response
+//     })
+//   )
+
+//   Promise.all(RequestArray)
+//   .then((responses) => {
+//     // responses — массив результатов выполнения промисов
+//     responses.forEach(resp => {
+//       console.log('943)', resp)
+//     })
+//   })
+//   .catch(error => {
+//     console.error(error)
+//   })
+//   return RequestArray
+// }
+
+// function promiseFiltration(){
+// // ПОСЛЕДОВАТЕЛЬНЫЙ THEN
+
+// const backEndAnswer = new Promise((resolve, reject) => {
+//   let Answer;  
+//   let AnswerDelay;
+//   Answer = Math.round(getRandomInRange(0,11))>5 ? true : false
+//   AnswerDelay = getRandomInRange(500,1000)
+//   setTimeout(() => {
+//     // console.log('926 ) рандомный Answer в промисе. пока не используется ', Answer)  
+//     resolve(Answer)
+//   }, AnswerDelay );
+//   // reject('error'); 
+// });
+
+//   backEndAnswer
+//   .then(
+//     result=>{
+//     console.log('1031) результат предыдущего: ', result)
+//     // TODO начну использовать Answer-result после отладки параллельности
+//     let settedFiltersObject=initialObject;
+//     if (typeof(settedFiltersObject["Name0-0"])==='object') {
+//       settedFiltersObject["Name0-0"].filter=true
+//       // console.log('947) 2й then. Установка фильтра в Name0-0')
+//     }
+//     // console.log('949) установленный фильтр: ',settedFiltersObject)
+//     return (settedFiltersObject)
+//     },
+//     error => {
+//       alert("939) Rejected: " + error); 
+//       return error 
+//     }
+//   )
+//   .then(
+//     result=>{
+//     // console.log('956)  результат предыдущего: ', result)
+//     let settedFiltersObject=initialObject;
+//     if (typeof(settedFiltersObject["Name0-1"])==='object') {
+//       settedFiltersObject["Name0-1"].filter=true
+//       // console.log('961) 3й then. Установка фильтра в Name0-1')
+//     }
+//     // console.log('962) установленный фильтр: ',settedFiltersObject)
+//     return (settedFiltersObject)
+//     }
+//   )  
+//   .then(
+//     result=>{
+//       console.log('968) результат предыдущего: ', result)
+//       let filteredObject =filterObject(result)
+//       return (console.log('969) отфильтрованный обьект', filteredObject))
+//     }
+//   )
+//   .catch(function (err) {
+//     console.log('973) ',err)
+//   })
+//   .finally(function () {
+//     console.log('976 The end. finally')
+//   })
+// }
+
+// let testAnswer = promiseFiltration()
 
 // Эти 6 строчек ниже ОК!
 let initialObject=createRandomObj(3, 0, 2)
-console.log('960) initialObject: ', initialObject)
+console.log('1-1071) начальный обьект: ', initialObject)
+let settedFiltersObject = testPromiseParallel_makeFilterOn(initialObject)
 // let settedFiltersObject = makeFilterOn(initialObject)
-// console.log('915) ', settedFiltersObject)
-// let filteredObject =filterObject(settedFiltersObject)
-// console.log('917) ', filteredObject)
+console.log('5-1076) еще раз вывод с фильтром ', settedFiltersObject)
+let filteredObject =filterObject(settedFiltersObject)
+console.log('6-1078) отфильтровано ', filteredObject)
 
 // let filterNameArray=['f1', 'f2', 'f3', 'f4', 'f5']
 // let backEndAnswersArray=[]
@@ -999,15 +1099,4 @@ console.log('960) initialObject: ', initialObject)
 
   // backEndAnswersArray = filterNameArray.map(function (item) {
   //   return (backEndAnswer)
-  //   backEndAnswersArray[item]={filterName:null, FilterYesOrNot:null, AnswerDelay:null }
-  //   backEndAnswersArray[item].filterName=item
-  //   backEndAnswersArray[item].FilterYesOrNot=""
-  //   backEndAnswersArray[item].AnswerDelay=""
-  // })
-  
-// for (let i=0; i<15; i++){
-//   console.log(Math.round(getRandomInRange(0,10))>5 ? true : false)
-  // console.log(backEndAnswer)
-// }
-// backEndAnswer1 = Math.round(getRandomInRange(0,1))===0 ? true : false
-// console.log(backEndAnswersArray)
+  // })  
