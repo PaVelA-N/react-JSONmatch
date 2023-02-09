@@ -130,11 +130,7 @@ function GetSpanMark(diffObject, item){
 function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
   // запускает ShowAnyType2 для всех первичных ключей
   let keysArray = uniqKeysFromObjects(obj1, obj2);
-  // console.log('286) diffObj1= ', diffObj1)
   let resultArr = keysArray.map(function (item) {
-    // console.log('288) diffObj1.KeyMark[item]=', diffObj1.KeyMark[item])
-    // console.log('289) diffObj1.ValueMark[item]=', diffObj1.ValueMark[item])
-    // console.log('290) obj1[item]= ', obj1[item])
     return (
       <tr key={item}>
         <td>
@@ -145,12 +141,6 @@ function MainFunction2(obj1, obj2, diffObj1, diffObj2) {
         </td>
         <td>
             {ShowAnyType2(obj2[item], diffObj2.ValueMark[item], item)}
-        </td>
-        <td>
-          {item} : {ShowAnyType2(diffObj1.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj1.ValueMark[item])}
-        </td>
-        <td>
-          {item} : {ShowAnyType2(diffObj2.KeyMark[item])} <br></br> <br></br>"Value: "{ShowAnyType(diffObj2.ValueMark[item])}
         </td>
       </tr>
     );
@@ -386,25 +376,6 @@ function CreateMarkBelow2(obj, objName, diffObject, SpanMark){
   return diffObject;
 }
 
-function ShowAnyType(obj, spanMarkLocal) {
-  let type = DefindMyTypeOf(obj);
-        // console.log('742) функц ShowAnyType. type= ',type,'; obj= ',obj);
-  switch (type) {
-    case "primitiveType":
-      if (type === undefined) {
-        return "undef xxx";
-      } else {
-        return ShowPrimitive(obj);
-      }
-    case "arrayType":
-      return ShowArray(obj, spanMarkLocal);
-    case "objectType":
-      // console.log('752) функц ShowAnyType. obj= ',obj);
-      return ShowObject(obj, spanMarkLocal);
-    default:
-      return ShowPrimitive(obj);
-  }
-}
 function ShowAnyType2(obj, DiffObject, item) {
   // console.log('955) obj= ', obj,'; DiffObject=', DiffObject, '; item= ', item)
   let type = DefindMyTypeOf(obj);
@@ -438,74 +409,6 @@ function ShowAnyType2(obj, DiffObject, item) {
 
 function ShowPrimitive(obj) {
   return "" + obj;
-}
-
-function ShowArray(arr, spanMarkLocal) {
-  console.log()
-  let resultArr = arr.map(function (item, index) {
-    switch (DefindMyTypeOf(item)) {
-      case "primitiveType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={spanMarkLocal}>{ShowAnyType(item)}</span>
-            </td>
-          </tr>
-        );
-      case "undefinedType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(item)}</span>
-            </td>
-          </tr>
-        );
-      case "arrayType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={spanMarkLocal}>
-                {ShowAnyType(item, spanMarkLocal)}
-              </span>
-            </td>
-          </tr>
-        );
-      case "objectType":
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={spanMarkLocal}>
-                {ShowAnyType(item, spanMarkLocal)}
-              </span>
-            </td>
-          </tr>
-        );
-      default:
-        return (
-          <tr key={"key_" + index}>
-            <td>
-              <span className={spanMarkLocal}>
-                {"Ошибка функт. ShowArray стр. 311"}
-              </span>
-            </td>
-          </tr>
-        );
-    }
-  });
-
-  return (
-    <table>
-      <tbody>
-        <tr>
-          <td>&#91;</td>
-        </tr>
-        {resultArr}
-        <tr>
-          <td>&#93;</td>
-        </tr>
-      </tbody>
-    </table>
-  );
 }
 
 function getSpan(cb, item, DiffObject, index) {
@@ -543,41 +446,16 @@ function ShowArray2(arr, DiffObject, item) {
   let resultArr = arr.map(function (item, index) {
     switch (DefindMyTypeOf(item)) {
       case "primitiveType":
-        // console.log('1035 index = ',index,'; DiffObject[index]= ', DiffObject)
-        // return (
-        //   <tr key={"key_" + index}>
-        //     <td>
-        //       <span className={DiffObject[index]}>{ShowAnyType(item)}</span>
-        //     </td>
-        //   </tr>
-        // );
-        return getTableRow(ShowAnyType, item, "primitiveType", DiffObject, index);
+       
+        return getTableRow(ShowAnyType2, item, "primitiveType", DiffObject, index);
       case "undefinedType":
-        // return (
-        //   <tr key={"key_" + index}>
-        //     <td>
-        //       <span className={DiffObject[index]}>{ShowPrimitive(item)}</span>
-        //     </td>
-        //   </tr>
-        // );
+
         return getTableRow(ShowPrimitive, item, "undefinedType");
       case "arrayType":
-        // return (
-        //   <tr key={"key_" + index}>
-        //     <td>
-        //         {ShowAnyType2(item, DiffObject[index])}
-        //     </td>
-        //   </tr>
-        // );
+
         return getTableRow(ShowAnyType2, item, "arrayType");
       case "objectType":
-        // return (
-        //   <tr key={"key_" + index}>
-        //     <td>
-        //         {ShowAnyType2(item, DiffObject[index])}
-        //     </td>
-        //   </tr>
-        // );
+
         return getTableRow(ShowAnyType2, item, "objectType");
       default:
         return (
@@ -599,80 +477,6 @@ function ShowArray2(arr, DiffObject, item) {
         {resultArr}
         <tr>
           <td>&#93;</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-}
-
-function ShowObject(obj, spanMarkLocal) {
-  let keysArray = Object.keys(obj);
-  // console.log('699) keysArray= ', keysArray)
-  let resultArr = keysArray.map(function (item) {
-    // console.log('349) DefindMyTypeOf(item)', DefindMyTypeOf(obj[item]))
-    switch (DefindMyTypeOf(obj[item])) {
-      case "primitiveType":
-        return (
-          <tr key={"key_" + item}>
-            <td>"{item}" : </td>
-            <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(obj[item])}</span>
-            </td>
-          </tr>
-        );
-      case "undefinedType":
-        return (
-          <tr key={"key_" + item}>
-            <td>"{item}" : </td>
-            <td>
-              <span className={spanMarkLocal}>{ShowPrimitive(obj[item])}</span>
-            </td>
-          </tr>
-        );
-      case "arrayType":
-        // console.log('359)', spanMarkLocal )
-        return (
-          <tr key={"key_" + item}>
-            <td>"{item}" : </td>
-            <td>
-              <span className={spanMarkLocal}>
-                {ShowAnyType(obj[item], spanMarkLocal)}
-              </span>
-            </td>
-          </tr>
-        );
-      case "objectType":
-        return (
-          <tr key={"key_" + item}>
-            <td>"{item}" :</td>
-            <td>
-              <span className={spanMarkLocal}>
-                {ShowAnyType(obj[item], spanMarkLocal)}
-              </span>
-            </td>
-          </tr>
-        );
-      default:
-        return (
-          <tr key={"key_" + item}>
-            <td>
-              <span className={spanMarkLocal}>
-                {"Ошибка функц. ShowArray стр. 1069"}
-              </span>
-            </td>
-          </tr>
-        );
-    }
-  });
-  return (
-    <table>
-      <tbody>
-        <tr>
-          <td>&#123;</td>
-        </tr>
-        {resultArr}
-        <tr>
-          <td>&#125;</td>
         </tr>
       </tbody>
     </table>
@@ -794,7 +598,6 @@ function createTable3(obj1, obj2,diffObj1,diffObj2) {
     </table>
   );
 }
-
 
 [diff_Object1, diff_Object2] = Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2)
 
