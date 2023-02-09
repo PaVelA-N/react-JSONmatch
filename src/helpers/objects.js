@@ -31,3 +31,7 @@ export function DefindMyTypeOf(obj) {
         }
     }
   }
+
+export function ShowPrimitive(obj) {
+  return "" + obj;
+}

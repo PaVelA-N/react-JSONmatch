@@ -4,7 +4,7 @@ import "./index.css";
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
 
-import { uniqKeysFromObjects, DefindMyTypeOf } from './helpers/objects'
+import { uniqKeysFromObjects, DefindMyTypeOf, ShowPrimitive } from './helpers/objects'
 
 let obj1 = require("./JSON for match/data11.json");
 let obj2 = require("./JSON for match/data12.json");
@@ -377,9 +377,7 @@ function CreateMarkBelow2(obj, objName, diffObject, SpanMark){
 }
 
 function ShowAnyType2(obj, DiffObject, item) {
-  // console.log('955) obj= ', obj,'; DiffObject=', DiffObject, '; item= ', item)
   let type = DefindMyTypeOf(obj);
-  // console.log('957) функц ShowAnyType2. type= ',type,'; obj= ',obj);
   switch (type) {
     case "primitiveType":
       return (
@@ -400,15 +398,10 @@ function ShowAnyType2(obj, DiffObject, item) {
     case "arrayType":
       return ShowArray2(obj, DiffObject, item);
     case "objectType":
-      // console.log('752) функц ShowAnyType. obj= ',obj);
       return ShowObject2(obj, DiffObject, item);
     default:
       return ShowPrimitive(obj);
   }
-}
-
-function ShowPrimitive(obj) {
-  return "" + obj;
 }
 
 function getSpan(cb, item, DiffObject, index) {
@@ -418,20 +411,12 @@ function getSpan(cb, item, DiffObject, index) {
 }
 
 function getTableRow(cb, item, type, DiffObject, index) {
-  console.log("tr get:" + type);
   let dataContent;
   if(type === 'undefinedType' || type === 'primitiveType') {
-    // dataContent = `<span className=${DiffObject[index]}>${cb(item)}</span>`;
     dataContent = getSpan(cb, item, DiffObject, index);
   } else {
     dataContent = cb(item);
   }
-
-  // dataContent = type === ('undefinedType' ||  'primitiveType') ?  
-  //   getSpan(cb, item, DiffObject, index) 
-  //   : cb(item);
-   
-
   return (
     <tr key={"key_" + index}>
       <td>
@@ -485,16 +470,9 @@ function ShowArray2(arr, DiffObject, item) {
 
 function ShowObject2(obj, DiffObject, item) {
   let keysArray = Object.keys(obj);
-  // console.log('1199) obj= ', obj,'; item= ', item)
   let resultArr = keysArray.map(function (item) {
-    // console.log('1201) DefindMyTypeOf(item)', DefindMyTypeOf(obj[item]))
     switch (DefindMyTypeOf(obj[item])) {
       case "primitiveType":
-        // console.log('1205) DiffObject= ', DiffObject, '; item=', item) 
-        // console.log('1206) DiffObject.KeyMark= ', DiffObject.KeyMark )
-        // console.log('1207) DiffObject.ValueMark= ', DiffObject.ValueMark )
-        // console.log('1208) DiffObject.KeyMark[item]= ', DiffObject.KeyMark[item])
-        // console.log('1209) DiffObject.ValueMark[item]= ', DiffObject.ValueMark[item])
         return (
           <tr key={"key_" + item}>
             <td>
@@ -521,9 +499,6 @@ function ShowObject2(obj, DiffObject, item) {
           </tr>
         );
       case "arrayType":
-        // console.log('1236) DiffObject= ', DiffObject, '; item=', item) 
-        // console.log('1237) DiffObject.Value[item]= ', DiffObject.ValueMark[item] )
-        // if (item = 'extends') {console.log('1238)',GetSpanMark(DiffObject.ValueMark, item))}
         return (
           <tr key={"key_" + item}>
             <td>
@@ -539,9 +514,6 @@ function ShowObject2(obj, DiffObject, item) {
           </tr>
         );
       case "objectType":
-        // console.log('1241) item', item )
-        // console.log('1242) DiffObject', DiffObject )
-        // console.log('1243) DiffObject.ValueMark[item]', DiffObject.ValueMark[item] )
         return (
           <tr key={"key_" + item}>
             <td>
@@ -589,9 +561,6 @@ function createTable3(obj1, obj2,diffObj1,diffObj2) {
           <td>Ключ</td>
           <td>JSON_1 (old)</td>
           <td>JSON_2 (new)</td>
-          {/* <td>Diff-JeneralMark</td> */}
-          <td>Diff-Object1</td>
-          <td>Diff-Object2</td>
         </tr>
       </thead>
       <tbody>{MainFunction2(obj1, obj2,diffObj1,diffObj2)}</tbody>
