@@ -413,7 +413,7 @@ function ShowAnyType2(obj, DiffObject, item) {
     case "primitiveType":
       return (
         <span className={DiffObject}>
-          {ShowPrimitive2(obj)}
+          {ShowPrimitive(obj)}
         </span>
       )
     case "undefinedType":  
@@ -432,15 +432,11 @@ function ShowAnyType2(obj, DiffObject, item) {
       // console.log('752) функц ShowAnyType. obj= ',obj);
       return ShowObject2(obj, DiffObject, item);
     default:
-      return ShowPrimitive2(obj);
+      return ShowPrimitive(obj);
   }
 }
 
 function ShowPrimitive(obj) {
-  return "" + obj;
-}
-
-function ShowPrimitive2(obj) {
   return "" + obj;
 }
 
@@ -703,7 +699,7 @@ function ShowObject2(obj, DiffObject, item) {
               </span>
               </td>
             <td>
-              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive2(obj[item])}</span>
+              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive(obj[item])}</span>
             </td>
           </tr>
         );
@@ -716,7 +712,7 @@ function ShowObject2(obj, DiffObject, item) {
               </span>
             </td>
             <td>
-              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive2(obj[item])}</span>
+              <span className={DiffObject.ValueMark[item]}>{ShowPrimitive(obj[item])}</span>
             </td>
           </tr>
         );
@@ -799,10 +795,8 @@ function createTable3(obj1, obj2,diffObj1,diffObj2) {
   );
 }
 
-let transfArray;
-transfArray= Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2)
-diff_Object1= transfArray[0]
-diff_Object2= transfArray[1]
+
+[diff_Object1, diff_Object2] = Make2DiffObjects(obj1, obj2, diff_Object1, diff_Object2)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let table = createTable3(obj1, obj2, diff_Object1, diff_Object2);
